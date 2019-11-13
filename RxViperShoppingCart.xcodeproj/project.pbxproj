@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5DB2163AA1408D80BF5A8EEF /* Pods_RxViperShoppingCart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 553F1D2E4148B292EC13376E /* Pods_RxViperShoppingCart.framework */; };
+		B384F88DBB37BC70D8301469 /* Pods_RxViperShoppingCartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2CA33C4B256A2ABD575E26 /* Pods_RxViperShoppingCartUITests.framework */; };
 		D91A2F44237C14E700F71942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F43237C14E700F71942 /* AppDelegate.swift */; };
 		D91A2F46237C14E700F71942 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F45237C14E700F71942 /* SceneDelegate.swift */; };
 		D91A2F48237C14E700F71942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F47237C14E700F71942 /* ViewController.swift */; };
@@ -16,6 +18,7 @@
 		D91A2F53237C14E900F71942 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D91A2F51237C14E900F71942 /* LaunchScreen.storyboard */; };
 		D91A2F5E237C14E900F71942 /* RxViperShoppingCartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F5D237C14E900F71942 /* RxViperShoppingCartTests.swift */; };
 		D91A2F69237C14E900F71942 /* RxViperShoppingCartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F68237C14E900F71942 /* RxViperShoppingCartUITests.swift */; };
+		F51B9670BB89AF2472B53EAB /* Pods_RxViperShoppingCartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E3EC92A8768559CFBDE8B /* Pods_RxViperShoppingCartTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A0AC2921C8DA0860978CEC8 /* Pods-RxViperShoppingCartUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCartUITests.debug.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCartUITests/Pods-RxViperShoppingCartUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4A4E3EC92A8768559CFBDE8B /* Pods_RxViperShoppingCartTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxViperShoppingCartTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		553F1D2E4148B292EC13376E /* Pods_RxViperShoppingCart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxViperShoppingCart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D2CA33C4B256A2ABD575E26 /* Pods_RxViperShoppingCartUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxViperShoppingCartUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9721BA6884DDEC6D91C477D5 /* Pods-RxViperShoppingCartUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCartUITests.release.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCartUITests/Pods-RxViperShoppingCartUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B44C50D75430AC8C857DFFDD /* Pods-RxViperShoppingCartTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCartTests.release.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCartTests/Pods-RxViperShoppingCartTests.release.xcconfig"; sourceTree = "<group>"; };
+		B81F10B29E6CDB4A4D3F3127 /* Pods-RxViperShoppingCartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCartTests.debug.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCartTests/Pods-RxViperShoppingCartTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C98319E2A6FA6AC28B91D92B /* Pods-RxViperShoppingCart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCart.debug.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart.debug.xcconfig"; sourceTree = "<group>"; };
 		D91A2F40237C14E700F71942 /* RxViperShoppingCart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxViperShoppingCart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91A2F43237C14E700F71942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D91A2F45237C14E700F71942 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +62,7 @@
 		D91A2F64237C14E900F71942 /* RxViperShoppingCartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxViperShoppingCartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91A2F68237C14E900F71942 /* RxViperShoppingCartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxViperShoppingCartUITests.swift; sourceTree = "<group>"; };
 		D91A2F6A237C14E900F71942 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0FD09643584217C4ADFBE28 /* Pods-RxViperShoppingCart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCart.release.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DB2163AA1408D80BF5A8EEF /* Pods_RxViperShoppingCart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F51B9670BB89AF2472B53EAB /* Pods_RxViperShoppingCartTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +86,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B384F88DBB37BC70D8301469 /* Pods_RxViperShoppingCartUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59C13EF0E9941351D1C4DC51 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C98319E2A6FA6AC28B91D92B /* Pods-RxViperShoppingCart.debug.xcconfig */,
+				E0FD09643584217C4ADFBE28 /* Pods-RxViperShoppingCart.release.xcconfig */,
+				B81F10B29E6CDB4A4D3F3127 /* Pods-RxViperShoppingCartTests.debug.xcconfig */,
+				B44C50D75430AC8C857DFFDD /* Pods-RxViperShoppingCartTests.release.xcconfig */,
+				3A0AC2921C8DA0860978CEC8 /* Pods-RxViperShoppingCartUITests.debug.xcconfig */,
+				9721BA6884DDEC6D91C477D5 /* Pods-RxViperShoppingCartUITests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D91A2F37237C14E700F71942 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +114,8 @@
 				D91A2F5C237C14E900F71942 /* RxViperShoppingCartTests */,
 				D91A2F67237C14E900F71942 /* RxViperShoppingCartUITests */,
 				D91A2F41237C14E700F71942 /* Products */,
+				59C13EF0E9941351D1C4DC51 /* Pods */,
+				FF6FBF38DC7F517BC624C4AA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,6 +162,16 @@
 			path = RxViperShoppingCartUITests;
 			sourceTree = "<group>";
 		};
+		FF6FBF38DC7F517BC624C4AA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				553F1D2E4148B292EC13376E /* Pods_RxViperShoppingCart.framework */,
+				4A4E3EC92A8768559CFBDE8B /* Pods_RxViperShoppingCartTests.framework */,
+				5D2CA33C4B256A2ABD575E26 /* Pods_RxViperShoppingCartUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,9 +179,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D91A2F6D237C14E900F71942 /* Build configuration list for PBXNativeTarget "RxViperShoppingCart" */;
 			buildPhases = (
+				53A8A94D380F4B0629BC3FAE /* [CP] Check Pods Manifest.lock */,
 				D91A2F3C237C14E700F71942 /* Sources */,
 				D91A2F3D237C14E700F71942 /* Frameworks */,
 				D91A2F3E237C14E700F71942 /* Resources */,
+				7854036D01F6FF1E69C9B397 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -155,6 +198,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D91A2F70237C14E900F71942 /* Build configuration list for PBXNativeTarget "RxViperShoppingCartTests" */;
 			buildPhases = (
+				3A9F46B886754D4908635153 /* [CP] Check Pods Manifest.lock */,
 				D91A2F55237C14E900F71942 /* Sources */,
 				D91A2F56237C14E900F71942 /* Frameworks */,
 				D91A2F57237C14E900F71942 /* Resources */,
@@ -173,6 +217,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D91A2F73237C14E900F71942 /* Build configuration list for PBXNativeTarget "RxViperShoppingCartUITests" */;
 			buildPhases = (
+				B8CA12C9F1AB9229D342F091 /* [CP] Check Pods Manifest.lock */,
 				D91A2F60237C14E900F71942 /* Sources */,
 				D91A2F61237C14E900F71942 /* Frameworks */,
 				D91A2F62237C14E900F71942 /* Resources */,
@@ -256,6 +301,92 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3A9F46B886754D4908635153 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RxViperShoppingCartTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		53A8A94D380F4B0629BC3FAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RxViperShoppingCart-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7854036D01F6FF1E69C9B397 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8CA12C9F1AB9229D342F091 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RxViperShoppingCartUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D91A2F3C237C14E700F71942 /* Sources */ = {
@@ -436,6 +567,7 @@
 		};
 		D91A2F6E237C14E900F71942 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C98319E2A6FA6AC28B91D92B /* Pods-RxViperShoppingCart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -454,6 +586,7 @@
 		};
 		D91A2F6F237C14E900F71942 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E0FD09643584217C4ADFBE28 /* Pods-RxViperShoppingCart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -472,6 +605,7 @@
 		};
 		D91A2F71237C14E900F71942 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B81F10B29E6CDB4A4D3F3127 /* Pods-RxViperShoppingCartTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -494,6 +628,7 @@
 		};
 		D91A2F72237C14E900F71942 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B44C50D75430AC8C857DFFDD /* Pods-RxViperShoppingCartTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -516,6 +651,7 @@
 		};
 		D91A2F74237C14E900F71942 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A0AC2921C8DA0860978CEC8 /* Pods-RxViperShoppingCartUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -536,6 +672,7 @@
 		};
 		D91A2F75237C14E900F71942 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9721BA6884DDEC6D91C477D5 /* Pods-RxViperShoppingCartUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
