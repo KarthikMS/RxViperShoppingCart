@@ -24,6 +24,7 @@
 		D91A2F86237C532D00F71942 /* ShopRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F85237C532D00F71942 /* ShopRouter.swift */; };
 		D91A2F8A237C536D00F71942 /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F88237C536D00F71942 /* CartItem.swift */; };
 		D91A2F8B237C536D00F71942 /* ShopItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F89237C536D00F71942 /* ShopItem.swift */; };
+		D91A2F8E237C5EAE00F71942 /* ShopPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F8D237C5EAE00F71942 /* ShopPresenter.swift */; };
 		F51B9670BB89AF2472B53EAB /* Pods_RxViperShoppingCartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E3EC92A8768559CFBDE8B /* Pods_RxViperShoppingCartTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		D91A2F85237C532D00F71942 /* ShopRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopRouter.swift; sourceTree = "<group>"; };
 		D91A2F88237C536D00F71942 /* CartItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartItem.swift; sourceTree = "<group>"; };
 		D91A2F89237C536D00F71942 /* ShopItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopItem.swift; sourceTree = "<group>"; };
+		D91A2F8D237C5EAE00F71942 /* ShopPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopPresenter.swift; sourceTree = "<group>"; };
 		E0FD09643584217C4ADFBE28 /* Pods-RxViperShoppingCart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCart.release.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,6 +190,7 @@
 				D91A2F81237C503000F71942 /* Protocols */,
 				D91A2F7F237C501900F71942 /* View */,
 				D91A2F80237C502000F71942 /* Interactor */,
+				D91A2F8C237C5E9E00F71942 /* Presenter */,
 				D91A2F82237C52F500F71942 /* Router */,
 			);
 			path = Shop;
@@ -233,6 +236,14 @@
 				D91A2F89237C536D00F71942 /* ShopItem.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		D91A2F8C237C5E9E00F71942 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				D91A2F8D237C5EAE00F71942 /* ShopPresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		FF6FBF38DC7F517BC624C4AA /* Frameworks */ = {
@@ -467,6 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D91A2F8E237C5EAE00F71942 /* ShopPresenter.swift in Sources */,
 				D91A2F84237C531B00F71942 /* ShopInteractor.swift in Sources */,
 				D91A2F86237C532D00F71942 /* ShopRouter.swift in Sources */,
 				D91A2F8A237C536D00F71942 /* CartItem.swift in Sources */,

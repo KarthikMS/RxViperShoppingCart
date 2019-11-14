@@ -6,4 +6,39 @@
 //  Copyright © 2019 Zoho. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ShopRouter: ShopRouterProtocol {
+	// MARK: - Properties
+	var presenter: ShopPresenterToRouterProtocol!
+}
+
+// MARK: - ShopRouterProtocol
+extension ShopRouter {
+	static func createModule() -> UIViewController {
+		guard let navController = mainStoryboard.instantiateInitialViewController(),
+			let view = navController.children.first as? ShopViewController else {
+				assertionFailure()
+				return UINavigationController()
+		}
+		let presenter = ShopPresenter()
+//		let interactor = ShopInteractor()
+		let router = ShopRouter()
+
+		view.presenter = presenter
+//		interactor.presenter = presenter
+		presenter.view = view
+		presenter.router = router
+//		presenter.interactor = interactor
+//		router.presenter = presenter
+
+		return navController
+	}
+}
+
+// MARK: - Util
+private extension ShopRouter {
+	static var mainStoryboard: UIStoryboard {
+        return UIStoryboard(name: "Main", bundle: Bundle.main)
+    }
+}

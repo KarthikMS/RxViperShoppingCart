@@ -7,24 +7,48 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-class ShopViewController: UIViewController {
+class ShopViewController: UIViewController, ShopViewProtocol {
+	// MARK: - Properties
+	var presenter: ShopViewToPresenterProtocol!
 
-    override func viewDidLoad() {
+	// MARK: - Subjects for observables for presenter
+	private let cartButtonTapSubject = PublishSubject<Void>()
+
+	// MARK: - IBOutlets
+	@IBOutlet private weak var cartButton: UIBarButtonItem!
+	@IBOutlet private weak var tableView: UITableView!
+	@IBOutlet private weak var totalCostLabel: UILabel!
+
+	// MARK: - Util
+	private let disposeBag = DisposeBag()
+}
+
+// MARK: - View Life Cycle
+extension ShopViewController {
+	override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+		provideInputsToPresenter()
     }
+}
 
+// MARK: - Setup
+private extension ShopViewController {
+	func provideInputsToPresenter() {
+		cartButton.rx.tap
+			.subscribe(cartButtonTapSubject)
+			.disposed(by: disposeBag)
+	}
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+// MARK: - ShopViewObservablesForPresenterProvider
+extension ShopViewController {
+	var observablesForPresenter: ShopViewObservablesForPresenter! {
+		ShopViewObservablesForPresenter(
+			cartButtonObservable: cartButtonTapSubject
+		)
+	}
 }
