@@ -12,7 +12,11 @@ import RxCocoa
 
 class ShopViewController: UIViewController, ShopViewProtocol {
 	// MARK: - Properties
-	var presenter: ShopViewToPresenterProtocol!
+	var presenter: ShopPresenterObservablesForViewProvider! {
+		didSet {
+			observePresenter()
+		}
+	}
 
 	// MARK: - Subjects for observables for presenter
 	private let cartButtonTapSubject = PublishSubject<Void>()
@@ -44,11 +48,26 @@ private extension ShopViewController {
 	}
 }
 
+// MARK: - ShopViewProtocol
+extension ShopViewController {
+	func observePresenter() {
+		presenter.observablesForView
+			.cartButtonTitleDriver
+			.drive(cartButton.rx.title)
+			.disposed(by: disposeBag)
+
+		presenter.observablesForView
+			.cartButtonIsEnabledDriver
+			.drive(cartButton.rx.isEnabled)
+			.disposed(by: disposeBag)
+	}
+}
+
 // MARK: - ShopViewObservablesForPresenterProvider
 extension ShopViewController {
 	var observablesForPresenter: ShopViewObservablesForPresenter! {
 		ShopViewObservablesForPresenter(
-			cartButtonObservable: cartButtonTapSubject
+			cartButtonTapObservable: cartButtonTapSubject
 		)
 	}
 }

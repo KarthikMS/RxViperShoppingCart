@@ -8,17 +8,20 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 // MARK: - Definition Protocols
 protocol ShopViewProtocol: ShopViewObservablesForPresenterProvider {
-	var presenter: ShopViewToPresenterProtocol! { get set }
+	var presenter: ShopPresenterObservablesForViewProvider! { get set }
+
+	func observePresenter()
 }
 
 protocol ShopInteractorProtocol: ShopPresenterToInteractorProtocol {
 	var presenter: ShopInteractorToPresenterProtocol! { get set }
 }
 
-protocol ShopPresenterProtocol: ShopViewToPresenterProtocol, ShopInteractorToPresenterProtocol {
+protocol ShopPresenterProtocol: ShopPresenterObservablesForViewProvider, ShopInteractorToPresenterProtocol {
 	var view: ShopViewObservablesForPresenterProvider! { get set }
 	var interactor: ShopPresenterToInteractorProtocol! { get set }
 	var router: ShopPresenterToRouterProtocol! { get set }
@@ -36,8 +39,8 @@ protocol ShopViewObservablesForPresenterProvider {
 	var observablesForPresenter: ShopViewObservablesForPresenter! { get }
 }
 
-protocol ShopViewToPresenterProtocol {
-
+protocol ShopPresenterObservablesForViewProvider {
+	var observablesForView: ShopPresenterObservablesForView! { get }
 }
 
 protocol ShopInteractorToPresenterProtocol {
@@ -52,6 +55,12 @@ protocol ShopPresenterToRouterProtocol {
 
 }
 
+// MARK: - Models
 struct ShopViewObservablesForPresenter {
-	let cartButtonObservable: Observable<Void>
+	let cartButtonTapObservable: Observable<Void>
+}
+
+struct ShopPresenterObservablesForView {
+	let cartButtonIsEnabledDriver: Driver<Bool>
+	let cartButtonTitleDriver: Driver<String>
 }

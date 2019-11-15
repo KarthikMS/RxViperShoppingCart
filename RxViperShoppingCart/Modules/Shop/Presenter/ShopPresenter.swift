@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import RxCocoa
 
 class ShopPresenter: ShopPresenterProtocol {
 	// MARK: - Properties
@@ -22,13 +23,24 @@ class ShopPresenter: ShopPresenterProtocol {
 	private let disposeBag = DisposeBag()
 }
 
+// MARK: - ShopPresenterProtocol
 extension ShopPresenter {
 	func observeView() {
 		view.observablesForPresenter
-			.cartButtonObservable
+			.cartButtonTapObservable
 			.subscribe { _ in
 				print("Cart button tapped")
 			}
 			.disposed(by: disposeBag)
+	}
+}
+
+// MARK: - ShopPresenterObservablesForViewProvider
+extension ShopPresenter {
+	var observablesForView: ShopPresenterObservablesForView! {
+		ShopPresenterObservablesForView(
+			cartButtonIsEnabledDriver: Driver.just(true),
+			cartButtonTitleDriver: Driver.just("Title 2")
+		)
 	}
 }
