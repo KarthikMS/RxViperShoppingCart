@@ -22,14 +22,16 @@ extension ShopRouter {
 				return UINavigationController()
 		}
 		let presenter = ShopPresenter()
-//		let interactor = ShopInteractor()
+		let interactor = ShopInteractorAssembler.createInstance()
 		let router = ShopRouter()
 
 		view.presenter = presenter
-//		interactor.presenter = presenter
+
 		presenter.view = view
+
+		interactor.presenter = presenter
 		presenter.router = router
-//		presenter.interactor = interactor
+		presenter.interactor = interactor
 //		router.presenter = presenter
 
 		return navController

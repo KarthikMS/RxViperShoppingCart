@@ -11,14 +11,15 @@ import RxSwift
 import RxCocoa
 
 class ShopViewController: UIViewController, ShopViewProtocol {
-	// MARK: - Properties
+	// MARK: - Dependencies
 	var presenter: ShopPresenterObservablesForViewProvider! {
 		didSet {
-			observePresenter()
+//			observePresenter()
 		}
 	}
 
 	// MARK: - Subjects for observables for presenter
+	private let viewDidLoadSubject = PublishSubject<Void>()
 	private let cartButtonTapSubject = PublishSubject<Void>()
 
 	// MARK: - IBOutlets
@@ -28,6 +29,7 @@ class ShopViewController: UIViewController, ShopViewProtocol {
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
+	private let CellIdentifier = "CellIdentifier"
 }
 
 // MARK: - View Life Cycle
@@ -35,12 +37,20 @@ extension ShopViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
 
+		setUpTableView()
+		observePresenter()
 		provideInputsToPresenter()
+
+		viewDidLoadSubject.onCompleted()
     }
 }
 
 // MARK: - Setup
 private extension ShopViewController {
+	func setUpTableView() {
+		tableView.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: CellIdentifier)
+	}
+
 	func provideInputsToPresenter() {
 		cartButton.rx.tap
 			.subscribe(cartButtonTapSubject)
@@ -51,14 +61,27 @@ private extension ShopViewController {
 // MARK: - ShopViewProtocol
 extension ShopViewController {
 	func observePresenter() {
-		presenter.observablesForView
+		let presenterObservables = presenter.observablesForView!
+		presenterObservables
+			.tableViewDriver
+			.drive(tableView.rx.items(cellIdentifier: CellIdentifier, cellType: ItemTableViewCell.self)) { _, cellInfo, cell in
+				ItemTableViewCellRouter.configure(cell, for: cellInfo.item, cart: cellInfo.cart)
+			}
+			.disposed(by: disposeBag)
+
+		presenterObservables
 			.cartButtonTitleDriver
 			.drive(cartButton.rx.title)
 			.disposed(by: disposeBag)
 
-		presenter.observablesForView
+		presenterObservables
 			.cartButtonIsEnabledDriver
 			.drive(cartButton.rx.isEnabled)
+			.disposed(by: disposeBag)
+
+		presenterObservables
+			.totalCostLabelTextDriver
+			.drive(totalCostLabel.rx.text)
 			.disposed(by: disposeBag)
 	}
 }
@@ -67,6 +90,7 @@ extension ShopViewController {
 extension ShopViewController {
 	var observablesForPresenter: ShopViewObservablesForPresenter! {
 		ShopViewObservablesForPresenter(
+			viewDidLoadObservable: viewDidLoadSubject,
 			cartButtonTapObservable: cartButtonTapSubject
 		)
 	}
