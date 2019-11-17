@@ -9,28 +9,6 @@
 import RxSwift
 import RxCocoa
 
-// TODO: Rename Observables to Drivers
-struct ItemTableViewCellPresenterObservablesForView {
-	let nameLabelDriver: Driver<String>
-	let costLabelDriver: Driver<String>
-	let addToCartButtonIsEnabledDriver: Driver<Bool>
-	let removeFromCartButtonIsEnabledDriver: Driver<Bool>
-	let itemCountLabelDriver: Driver<String>
-}
-
-struct ItemTableViewCellPresenterObservablesForInteractor {
-	let addItemToCartObservable: Observable<Void>
-	let removeItemToCartObservable: Observable<Void>
-}
-
-protocol ItemTableViewCellPresenterObservablesForInteractorProvider {
-	var observablesForInteractor: ItemTableViewCellPresenterObservablesForInteractor! { get }
-}
-
-protocol ItemTableViewCellPresenterObservablesForViewProvider {
-	var observablesForView: ItemTableViewCellPresenterObservablesForView! { get }
-}
-
 class ItemTableViewCellPresenter: ItemTableViewCellPresenterObservablesForViewProvider, ItemTableViewCellPresenterObservablesForInteractorProvider {
 	// MARK: - Dependencies
 	var view: ItemTableViewCellObservablesForPresenterProvider! {
@@ -60,12 +38,14 @@ class ItemTableViewCellPresenter: ItemTableViewCellPresenterObservablesForViewPr
 	private let disposeBag = DisposeBag()
 
 	func observeView() {
-		view.observablesForPresenter
+		let viewObservables = view.observablesForPresenter!
+
+		viewObservables
 			.addToCartButtonTapObservable
 			.subscribe(addItemToCartSubject)
 			.disposed(by: disposeBag)
 
-		view.observablesForPresenter
+		viewObservables
 			.removeFromCartButtonTapObservable
 			.subscribe(removeItemFromCartSubject)
 			.disposed(by: disposeBag)
@@ -73,31 +53,33 @@ class ItemTableViewCellPresenter: ItemTableViewCellPresenterObservablesForViewPr
 
 	func observeInteractor() {
 		// TODO: Use RxSwift share()
-		interactor.observablesForPresenter
-			.itemObservable
+		let interactorObservables = interactor.observablesForPresenter!
+
+		interactorObservables
+			.shopItemObservable
 			.map { $0.name }
 			.subscribe(nameLabelSubject)
 			.disposed(by: disposeBag)
 
-		interactor.observablesForPresenter
-			.itemObservable
+		interactorObservables
+			.shopItemObservable
 			.map { "Rs. \($0.cost)" }
 			.subscribe(costLabelSubject)
 			.disposed(by: disposeBag)
 
-		interactor.observablesForPresenter
+		interactorObservables
 			.numberOfItemsInCartObservable
-			.map { $0 <= MaxNumberOfCartItemsOfAKind }
+			.map { $0 < MaxNumberOfCartItemsOfAKind }
 			.subscribe(addToCartButtonIsEnabledSubject)
 			.disposed(by: disposeBag)
 
-		interactor.observablesForPresenter
+		interactorObservables
 			.numberOfItemsInCartObservable
 			.map { $0 != 0 }
 			.subscribe(removeFromCartButtonIsEnabledSubject)
 			.disposed(by: disposeBag)
 
-		interactor.observablesForPresenter
+		interactorObservables
 			.numberOfItemsInCartObservable
 			.map { String($0) }
 			.subscribe(itemCountLabelSubject)
@@ -122,6 +104,7 @@ extension ItemTableViewCellPresenter {
 extension ItemTableViewCellPresenter {
 	var observablesForInteractor: ItemTableViewCellPresenterObservablesForInteractor! {
 		ItemTableViewCellPresenterObservablesForInteractor(
+			dequedObservable: view.observablesForPresenter.dequedObservable,
 			addItemToCartObservable: addItemToCartSubject,
 			removeItemToCartObservable: removeItemFromCartSubject
 		)

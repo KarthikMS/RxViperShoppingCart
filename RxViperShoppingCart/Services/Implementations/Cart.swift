@@ -26,12 +26,10 @@ extension Cart {
 		itemsObservable.filterMap { $0.isEmpty ? .map(Void()) : .ignore }
 	}
 
-	func countObservable(for item: ShopItem) -> Observable<Int> {
-		itemsSubject.map { (cartItems: [CartItem]) -> Int in
-			return cartItems
-				.first { $0.shopItem.id == item.id }?
-				.count ?? 0
-		}
+	func count(of item: ShopItem) -> Int {
+		items
+			.first { $0.shopItem.id == item.id }?
+			.count ?? 0
 	}
 
 	var totalCostObservable: Observable<Int> {

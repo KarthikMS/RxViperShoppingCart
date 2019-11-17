@@ -8,18 +8,8 @@
 
 import RxSwift
 
-struct ItemTableViewCellInteractorObservablesForPresenter {
-	let itemObservable: Observable<ShopItem>
-	let numberOfItemsInCartObservable: Observable<Int>
-}
-
-protocol ItemTableViewCellInteractorObservablesForPresenterProvider {
-	var observablesForPresenter: ItemTableViewCellInteractorObservablesForPresenter! { get }
-}
-
 class ItemTableViewCellInteractor: ItemTableViewCellInteractorObservablesForPresenterProvider {
 	// MARK: - Dependencies
-	private let item: ShopItem
 	private let cart: CartService
 
 	var presenter: ItemTableViewCellPresenterObservablesForInteractorProvider! {
@@ -28,34 +18,51 @@ class ItemTableViewCellInteractor: ItemTableViewCellInteractorObservablesForPres
 		}
 	}
 
+	// MARK: - Subjects for presenter
+	private let shopItemSubject: BehaviorSubject<ShopItem>
+	private let numberOfItemsInCartSubject: BehaviorSubject<Int>
+
 	// MARK: - Initializers
-	init(item: ShopItem, cart: CartService) {
-		self.item = item
+	init(shopItem: ShopItem, cart: CartService) {
 		self.cart = cart
+
+		shopItemSubject = BehaviorSubject<ShopItem>(value: shopItem)
+		numberOfItemsInCartSubject = BehaviorSubject<Int>(value: cart.count(of: shopItem))
 	}
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 
 	func observePresenter() {
-		presenter.observablesForInteractor
+		let presenterObservables = presenter.observablesForInteractor!
+
+		presenterObservables
 			.addItemToCartObservable
 			.subscribe(
 				onNext: { [weak self] in
 					guard let self = self else { return }
-					self.cart.add(self.item)
-				}
-		)
+					self.cart.add(self.shopItem)
+					self.numberOfItemsInCartSubject.onNext(self.cart.count(of: self.shopItem))
+			})
 			.disposed(by: disposeBag)
 
-		presenter.observablesForInteractor
+		presenterObservables
 			.removeItemToCartObservable
 			.subscribe(
 				onNext: { [weak self] in
 					guard let self = self else { return }
-					self.cart.remove(self.item)
-				}
-		)
+					self.cart.remove(self.shopItem)
+					self.numberOfItemsInCartSubject.onNext(self.cart.count(of: self.shopItem))
+			})
+			.disposed(by: disposeBag)
+
+		presenterObservables
+			.dequedObservable
+			.subscribe(onNext: { [weak self] shopItem in
+				guard let self = self else { return }
+				self.shopItemSubject.onNext(shopItem)
+				self.numberOfItemsInCartSubject.onNext(self.cart.count(of: shopItem))
+			})
 			.disposed(by: disposeBag)
 	}
 }
@@ -64,8 +71,12 @@ class ItemTableViewCellInteractor: ItemTableViewCellInteractorObservablesForPres
 extension ItemTableViewCellInteractor {
 	var observablesForPresenter: ItemTableViewCellInteractorObservablesForPresenter! {
 		ItemTableViewCellInteractorObservablesForPresenter(
-			itemObservable: Observable.just(item),
-			numberOfItemsInCartObservable: cart.countObservable(for: item)
+			shopItemObservable: shopItemSubject,
+			numberOfItemsInCartObservable: numberOfItemsInCartSubject
 		)
+	}
+
+	var shopItem: ShopItem {
+		try! shopItemSubject.value()
 	}
 }

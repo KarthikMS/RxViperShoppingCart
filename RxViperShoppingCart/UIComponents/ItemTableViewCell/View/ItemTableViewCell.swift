@@ -10,33 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ItemTableViewCellRouter {
-	static func configure(_ view: ItemTableViewCell, for item: ShopItem, cart: CartService) {
-		let interactor = ItemTableViewCellInteractor(item: item, cart: cart)
-		let presenter = ItemTableViewCellPresenter()
-
-		view.presenter = presenter
-		presenter.view = view
-
-		interactor.presenter = presenter
-		presenter.interactor = interactor
-	}
-}
-
-protocol ItemTableViewCellObservablesForPresenterProvider {
-	var observablesForPresenter: ItemTableViewCellObservablesForPresenter! { get }
-}
-
-struct ItemTableViewCellObservablesForPresenter {
-	let addToCartButtonTapObservable: Observable<Void>
-	let removeFromCartButtonTapObservable: Observable<Void>
-}
-
 class ItemTableViewCell: UITableViewCell, ItemTableViewCellObservablesForPresenterProvider {
 	// MARK: - Dependencies
 	var presenter: ItemTableViewCellPresenterObservablesForViewProvider! {
 		didSet {
-			observerPresenter()
+			observePresenter()
 		}
 	}
 
@@ -48,8 +26,7 @@ class ItemTableViewCell: UITableViewCell, ItemTableViewCellObservablesForPresent
 	@IBOutlet private weak var itemCountLabel: UILabel!
 
 	// MARK: - Subjects for observables for presenter
-	private let addToCartButtonTapSubject = PublishSubject<Void>()
-	private let removeFromCartButtonTapSubject = PublishSubject<Void>()
+	private let dequedSubject = PublishSubject<ShopItem>()
 
 	// MARK: - Util
 	private var disposeBag = DisposeBag()
@@ -57,32 +34,35 @@ class ItemTableViewCell: UITableViewCell, ItemTableViewCellObservablesForPresent
 
 // MARK: - Initialization functions
 extension ItemTableViewCell {
-	func configure() {
-		disposeBag = DisposeBag()
+	func configure(for item: ShopItem) {
+//		disposeBag = DisposeBag()
+		dequedSubject.onNext(item)
 	}
 
-	func observerPresenter() {
-		presenter.observablesForView
+	func observePresenter() {
+		let presenterObservables = presenter.observablesForView!
+
+		presenterObservables
 			.nameLabelDriver
 			.drive(itemNameLabel.rx.text)
 			.disposed(by: disposeBag)
 
-		presenter.observablesForView
+		presenterObservables
 			.costLabelDriver
 			.drive(itemCostLabel.rx.text)
 			.disposed(by: disposeBag)
 
-		presenter.observablesForView
+		presenterObservables
 			.addToCartButtonIsEnabledDriver
 			.drive(addToCartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 
-		presenter.observablesForView
+		presenterObservables
 			.removeFromCartButtonIsEnabledDriver
 			.drive(removeFromCartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 
-		presenter.observablesForView
+		presenterObservables
 			.itemCountLabelDriver
 			.drive(itemCountLabel.rx.text)
 			.disposed(by: disposeBag)
@@ -93,8 +73,9 @@ extension ItemTableViewCell {
 extension ItemTableViewCell {
 	var observablesForPresenter: ItemTableViewCellObservablesForPresenter! {
 		ItemTableViewCellObservablesForPresenter(
-			addToCartButtonTapObservable: addToCartButtonTapSubject,
-			removeFromCartButtonTapObservable: removeFromCartButtonTapSubject
+			dequedObservable: dequedSubject,
+			addToCartButtonTapObservable: addToCartButton.rx.tap.asObservable(),
+			removeFromCartButtonTapObservable: removeFromCartButton.rx.tap.asObservable()
 		)
 	}
 }
