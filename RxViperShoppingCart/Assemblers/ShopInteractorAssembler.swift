@@ -8,6 +8,9 @@
 
 class ShopInteractorAssembler {
 	static func createInstance() -> ShopInteractor {
-		ShopInteractor(cart: Cart(), shopDataSource: ShopDataSourceImpl())
+		ShopInteractor(
+			cart: CartServiceAssembler.shared,
+			shopDataSource: ShopDataSourceAssembler.shared
+		)
 	}
 }

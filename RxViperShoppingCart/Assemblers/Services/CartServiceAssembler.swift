@@ -7,7 +7,7 @@
 //
 
 class CartServiceAssembler {
-	static func createInstance() -> CartService {
+	static var shared: CartService {
 		Cart()
 	}
 }

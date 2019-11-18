@@ -7,7 +7,7 @@
 //
 
 class ShopDataSourceAssembler {
-	static func createInstance() -> ShopDataSource {
+	static var shared: ShopDataSource {
 		ShopDataSourceImpl()
 	}
 }

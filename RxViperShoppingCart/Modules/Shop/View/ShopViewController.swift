@@ -18,14 +18,18 @@ class ShopViewController: UIViewController, ShopViewProtocol {
 		}
 	}
 
+	// MARK: - IBOutlets
+	@IBOutlet private weak var tableView: UITableView!
+	@IBOutlet private weak var totalCostLabel: UILabel!
+
+	// Nav bar
+	@IBOutlet private weak var cartButton: UIBarButtonItem!
+	@IBOutlet private weak var emptyCartButton: UIBarButtonItem!
+
 	// MARK: - Subjects for observables for presenter
 	private let viewDidLoadSubject = PublishSubject<Void>()
 	private let cartButtonTapSubject = PublishSubject<Void>()
-
-	// MARK: - IBOutlets
-	@IBOutlet private weak var cartButton: UIBarButtonItem!
-	@IBOutlet private weak var tableView: UITableView!
-	@IBOutlet private weak var totalCostLabel: UILabel!
+	private let emptyCartButtonTapSubject = PublishSubject<Void>()
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
@@ -39,7 +43,7 @@ extension ShopViewController {
 
 		setUpTableView()
 		observePresenter()
-		provideInputsToPresenter()
+		sendInputsToPresenter()
 
 		viewDidLoadSubject.onCompleted()
     }
@@ -51,9 +55,13 @@ private extension ShopViewController {
 		tableView.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: CellIdentifier)
 	}
 
-	func provideInputsToPresenter() {
+	func sendInputsToPresenter() {
 		cartButton.rx.tap
 			.subscribe(cartButtonTapSubject)
+			.disposed(by: disposeBag)
+
+		emptyCartButton.rx.tap
+			.subscribe(emptyCartButtonTapSubject)
 			.disposed(by: disposeBag)
 	}
 }
@@ -76,6 +84,7 @@ extension ShopViewController {
 
 		presenterObservables
 			.cartButtonIsEnabledDriver
+			.debug("My debug")
 			.drive(cartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 
@@ -91,7 +100,8 @@ extension ShopViewController {
 	var observablesForPresenter: ShopViewObservablesForPresenter! {
 		ShopViewObservablesForPresenter(
 			viewDidLoadObservable: viewDidLoadSubject,
-			cartButtonTapObservable: cartButtonTapSubject
+			cartButtonTapObservable: cartButtonTapSubject,
+			emptyCartButtonTapObservable: emptyCartButtonTapSubject
 		)
 	}
 }

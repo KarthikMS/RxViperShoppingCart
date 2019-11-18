@@ -11,15 +11,27 @@
             <objects>
                 <viewController storyboardIdentifier="ShopViewControllerID" id="BYZ-38-t0r" customClass="ShopViewController" customModule="RxViperShoppingCart" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Shop" id="nsK-5X-fGp">
+                        <barButtonItem key="leftBarButtonItem" title="Empty cart" id="p8u-mc-Bty"/>
                         <barButtonItem key="rightBarButtonItem" title="0" id="CY4-cw-TnT"/>
                     </navigationItem>
                     <connections>
                         <outlet property="cartButton" destination="CY4-cw-TnT" id="h3b-bw-wvT"/>
+                        <outlet property="emptyCartButton" destination="p8u-mc-Bty" id="pfh-ZW-YQ8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="121.875"/>
+        </scene>
+        <!--Cart-->
+        <scene sceneID="foy-eK-LPd">
+            <objects>
+                <viewController storyboardIdentifier="CartViewController" id="hRW-M1-XRb" customClass="CartViewController" customModule="RxViperShoppingCart" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Cart" id="oLf-Dg-rT6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PVD-8d-sDF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1865" y="122"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T4w-PH-ajd">

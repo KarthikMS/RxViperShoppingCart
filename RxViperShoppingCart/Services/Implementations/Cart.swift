@@ -32,10 +32,22 @@ extension Cart {
 			.count ?? 0
 	}
 
+	func countObservable(of item: ShopItem) -> Observable<Int> {
+		Observable.just(count(of: item))
+	}
+
 	var totalCostObservable: Observable<Int> {
 		itemsSubject.map {
 			$0.reduce(0) { (total, item) -> Int in
 				total + (item.count * item.shopItem.cost)
+			}
+		}
+	}
+
+	var totalNumberOfItemsObsercable: Observable<Int> {
+		itemsSubject.map {
+			$0.reduce(0) { (total, item) -> Int in
+				total + item.count
 			}
 		}
 	}

@@ -19,11 +19,11 @@ class ShopPresenter: ShopPresenterProtocol {
 
 	var interactor: ShopInteractorObservablesForPresenterProvider! {
 		didSet {
-			observeInteractor()
+//			observeInteractor()
 		}
 	}
 
-	var router: ShopPresenterToRouterProtocol!
+	var router: ShopRouterProtocol!
 
 	// MARK: - Subjects for view
 	private var tableViewSubject = PublishSubject<[(item: ShopItem, cart: CartService)]>()
@@ -31,29 +31,26 @@ class ShopPresenter: ShopPresenterProtocol {
 	private var cartButtonTitleSubject = PublishSubject<String>()
 	private var totalCostLabelTextSubject = PublishSubject<String>()
 
+	// MARK: - Subjects for interactor
+	private let fetchShopItemsSubject = PublishSubject<Void>()
+
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
+	private var viewObservables: ShopViewObservablesForPresenter!
 }
 
 // MARK: - ShopPresenterProtocol
 extension ShopPresenter {
 	func observeView() {
-		let viewObservables = view.observablesForPresenter!
-
-//		viewObservables
-//			.viewDidLoadObservable
-//			.subscribe(interactor.observablesForPresenter.)
-//			.subscribe(
-//				onCompleted: { [weak self] in
-//					self?.interactor.observablesForPresenter.
-//			})
+		self.viewObservables = view.observablesForPresenter!
 
 		viewObservables
-			.cartButtonTapObservable
-			.subscribe { _ in
-				print("Cart button tapped")
-			}
-			.disposed(by: disposeBag)
+			.viewDidLoadObservable
+			.subscribe(onCompleted: { [weak self] in
+				self?.observeInteractor()
+				self?.fetchShopItemsSubject.onNext(())
+			})
+		.disposed(by: disposeBag)
 	}
 
 	func observeInteractor() {
@@ -63,30 +60,28 @@ extension ShopPresenter {
 		interactorObservables
 			.shopItemsObservable
 			.map { $0.map { ($0, cart) } }
-			.subscribe(tableViewSubject)
+			.subscribe(onNext: { [weak self] in
+				self?.tableViewSubject.onNext($0)
+			})
+//			.subscribe(tableViewSubject)
 			.disposed(by: disposeBag)
 
-		let totalItemsInCartObservable = interactorObservables
-			.cartItemsObservable
-			.map { cartItems -> Int in
-				return cartItems.reduce(0, { totalCount, cartItem in
-					totalCount + cartItem.count
-				})
-			}
-			.share()
-
-		totalItemsInCartObservable
+		interactorObservables
+			.totalNumberOfItemsInCartObservable
 			.map { String($0) }
 			.subscribe(cartButtonTitleSubject)
 			.disposed(by: disposeBag)
 
-		totalItemsInCartObservable
+		interactorObservables
+			.totalNumberOfItemsInCartObservable
 			.map { $0 != 0 }
-			.subscribe(cartButtonIsEnabledSubject)
+			.subscribe(onNext: { [weak self] in
+				self?.cartButtonIsEnabledSubject.onNext($0)
+			})
 			.disposed(by: disposeBag)
 
-		// TODO: Do not use cart
-		cart.totalCostObservable
+		interactorObservables
+			.totalCostOfItemsInCartObservable
 			.map { "Total Cost: Rs.\($0)" }
 			.subscribe(totalCostLabelTextSubject)
 			.disposed(by: disposeBag)
@@ -108,11 +103,18 @@ extension ShopPresenter {
 // MARK: - ShopPresenterObservablesForInteractorProvider
 extension ShopPresenter {
 	var observablesForInteractor: ShopPresenterObservablesForInteractor! {
-		let viewObservables = view.observablesForPresenter!
+		ShopPresenterObservablesForInteractor(
+			fetchShopItemsObservable: fetchShopItemsSubject,
+			emptyCartObservable: viewObservables.emptyCartButtonTapObservable
+		)
+	}
+}
 
-		return ShopPresenterObservablesForInteractor(
-			fetchShopItemsObservable: viewObservables.viewDidLoadObservable,
-			emptyCartObservable: viewObservables.cartButtonTapObservable
+// MARK: - ShopPresenterObservablesForRouterProvider
+extension ShopPresenter {
+	var observablesForRouter: ShopPresenterObservablesForRouter! {
+		ShopPresenterObservablesForRouter(
+			cartButtonTapObservable: viewObservables!.cartButtonTapObservable
 		)
 	}
 }

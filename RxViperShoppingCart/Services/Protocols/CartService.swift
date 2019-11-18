@@ -12,7 +12,9 @@ protocol CartService {
 	var itemsObservable: Observable<[CartItem]> { get }
 	var isEmptyObservable: Observable<Void> { get }
 	func count(of item: ShopItem) -> Int
+	func countObservable(of item: ShopItem) -> Observable<Int>
 	var totalCostObservable: Observable<Int> { get }
+	var totalNumberOfItemsObsercable: Observable<Int> { get }
 
 	var items: [CartItem] { get }
 	func add(_ item: ShopItem)

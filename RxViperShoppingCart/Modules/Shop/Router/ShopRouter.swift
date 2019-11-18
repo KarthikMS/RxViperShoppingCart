@@ -7,34 +7,58 @@
 //
 
 import UIKit
+import RxSwift
 
 class ShopRouter: ShopRouterProtocol {
 	// MARK: - Properties
-	var presenter: ShopPresenterToRouterProtocol!
+	var presenter: ShopPresenterObservablesForRouterProvider! {
+		didSet {
+			observePresenter()
+		}
+	}
+
+	var navController: UINavigationController!
+
+	// MARK: - Util
+	private let disposeBag = DisposeBag()
 }
 
 // MARK: - ShopRouterProtocol
 extension ShopRouter {
 	static func createModule() -> UIViewController {
-		guard let navController = mainStoryboard.instantiateInitialViewController(),
+		guard let navController = mainStoryboard.instantiateInitialViewController() as? UINavigationController,
 			let view = navController.children.first as? ShopViewController else {
 				assertionFailure()
 				return UINavigationController()
 		}
+
 		let presenter = ShopPresenter()
 		let interactor = ShopInteractorAssembler.createInstance()
 		let router = ShopRouter()
+		router.navController = navController
 
 		view.presenter = presenter
-
 		presenter.view = view
-
 		interactor.presenter = presenter
-		presenter.router = router
 		presenter.interactor = interactor
-//		router.presenter = presenter
+		router.presenter = presenter
+		presenter.router = router
 
 		return navController
+	}
+
+	func observePresenter() {
+		presenter.observablesForRouter
+			.cartButtonTapObservable
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] in
+				let cartViewController = CartRouter.createModule(
+					shopDataSource: ShopDataSourceAssembler.shared,
+					cart: CartServiceAssembler.shared
+				)
+				self?.navController.pushViewController(cartViewController, animated: true)
+			})
+			.disposed(by: disposeBag)
 	}
 }
 

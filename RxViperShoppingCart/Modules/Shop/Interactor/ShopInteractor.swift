@@ -33,7 +33,7 @@ class ShopInteractor: ShopInteractorProtocol {
 
 		presenterObservables
 			.fetchShopItemsObservable
-			.subscribe(onCompleted: { [weak self] in
+			.subscribe(onNext: { [weak self] in
 				self?.shopDataSource.fetchItems()
 			})
 			.disposed(by: disposeBag)
@@ -42,6 +42,7 @@ class ShopInteractor: ShopInteractorProtocol {
 			.emptyCartObservable
 			.subscribe(onNext: { [weak self] in
 				self?.cart.empty()
+				self?.shopDataSource.fetchItems()
 			})
 			.disposed(by: disposeBag)
 	}
@@ -53,7 +54,9 @@ extension ShopInteractor {
 		ShopInteractorObservablesForPresenter(
 			cart: cart,
 			shopItemsObservable: shopDataSource.itemsObservable,
-			cartItemsObservable: cart.itemsObservable
+			cartItemsObservable: cart.itemsObservable,
+			totalNumberOfItemsInCartObservable: cart.totalNumberOfItemsObsercable,
+			totalCostOfItemsInCartObservable: cart.totalCostObservable
 		)
 	}
 }

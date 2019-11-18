@@ -13,25 +13,28 @@ import RxCocoa
 // MARK: - Definition Protocols
 protocol ShopViewProtocol: ShopViewObservablesForPresenterProvider {
 	var presenter: ShopPresenterObservablesForViewProvider! { get set }
-
+	var navigationController: UINavigationController? { get }
 	func observePresenter()
 }
 
 protocol ShopInteractorProtocol: ShopInteractorObservablesForPresenterProvider {
 	var presenter: ShopPresenterObservablesForInteractorProvider! { get set }
+	func observePresenter()
 }
 
-protocol ShopPresenterProtocol: ShopPresenterObservablesForViewProvider, ShopPresenterObservablesForInteractorProvider {
+protocol ShopPresenterProtocol: ShopPresenterObservablesForViewProvider, ShopPresenterObservablesForInteractorProvider, ShopPresenterObservablesForRouterProvider {
 	var view: ShopViewObservablesForPresenterProvider! { get set }
 	var interactor: ShopInteractorObservablesForPresenterProvider! { get set }
-	var router: ShopPresenterToRouterProtocol! { get set }
-
+	var router: ShopRouterProtocol! { get set }
 	func observeView()
+	func observeInteractor()
 }
 
-protocol ShopRouterProtocol: ShopPresenterToRouterProtocol {
+protocol ShopRouterProtocol {
 	static func createModule() -> UIViewController
-//	var presenter: ShopPresenterToRouterProtocol! { get set }
+	var presenter: ShopPresenterObservablesForRouterProvider! { get set }
+	var navController: UINavigationController! { get set }
+	func observePresenter()
 }
 
 // MARK: - Communication Protocols
@@ -52,14 +55,15 @@ protocol ShopPresenterObservablesForInteractorProvider {
 	var observablesForInteractor: ShopPresenterObservablesForInteractor! { get }
 }
 
-protocol ShopPresenterToRouterProtocol {
-
+protocol ShopPresenterObservablesForRouterProvider {
+	var observablesForRouter: ShopPresenterObservablesForRouter! { get }
 }
 
 // MARK: - Models
 struct ShopViewObservablesForPresenter {
 	let viewDidLoadObservable: Observable<Void>
 	let cartButtonTapObservable: Observable<Void>
+	let emptyCartButtonTapObservable: Observable<Void>
 }
 
 struct ShopPresenterObservablesForView {
@@ -73,9 +77,15 @@ struct ShopInteractorObservablesForPresenter {
 	let cart: CartService
 	let shopItemsObservable: Observable<[ShopItem]>
 	let cartItemsObservable: Observable<[CartItem]>
+	let totalNumberOfItemsInCartObservable: Observable<Int>
+	let totalCostOfItemsInCartObservable: Observable<Int>
 }
 
 struct ShopPresenterObservablesForInteractor {
 	let fetchShopItemsObservable: Observable<Void>
 	let emptyCartObservable: Observable<Void>
+}
+
+struct ShopPresenterObservablesForRouter {
+	let cartButtonTapObservable: Observable<Void>
 }
