@@ -20,7 +20,7 @@ class CartRouter: CartRouterProtocol {
 // MARK: - CartRouterProtocol
 extension CartRouter {
 	static func createModule(shopDataSource: ShopDataSource, cart: CartService) -> CartViewController {
-		guard let view = mainStoryboard.instantiateViewController(identifier: "CartViewController") as? CartViewController else {
+		guard let view = mainStoryboard.instantiateViewController(identifier: "CartScreen") as? CartViewController else {
 			assertionFailure()
 			return CartViewController()
 		}

@@ -26,7 +26,7 @@
         <!--Cart-->
         <scene sceneID="foy-eK-LPd">
             <objects>
-                <viewController storyboardIdentifier="CartViewController" id="hRW-M1-XRb" customClass="CartViewController" customModule="RxViperShoppingCart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CartScreen" id="hRW-M1-XRb" customClass="CartViewController" customModule="RxViperShoppingCart" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Cart" id="oLf-Dg-rT6"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PVD-8d-sDF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
