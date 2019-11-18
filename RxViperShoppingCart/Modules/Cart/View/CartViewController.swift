@@ -14,6 +14,11 @@ class CartViewController: UIViewController, CartViewProtocol {
 	// MARK: - Dependencies
 	var presenter: CartPresenterDriversForViewProvider!
 
+	// MARK: - IBOutlets
+	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet weak var buyButton: UIButton!
+	@IBOutlet weak var emptyCartButton: UIButton!
+	
 	// MARK: - Properties
 	private let disposeBag = DisposeBag()
 }
