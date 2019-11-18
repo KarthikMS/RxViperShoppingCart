@@ -25,7 +25,10 @@ extension CartRouter {
 			return CartViewController()
 		}
 		let presenter = CartPresenter()
-		let interactor = CartInteractor()
+		let interactor = CartInteractorAssembler.createInstance(
+			shopDataSource: shopDataSource,
+			cart: cart
+		)
 		let router = CartRouter()
 
 		view.presenter = presenter
@@ -33,6 +36,7 @@ extension CartRouter {
 		interactor.presenter = presenter
 		presenter.interactor = interactor
 		router.presenter = presenter
+		presenter.router = router
 
 		return view
 	}

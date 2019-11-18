@@ -7,7 +7,5 @@
 //
 
 class CartServiceAssembler {
-	static var shared: CartService {
-		Cart()
-	}
+	static let shared: CartService = Cart()
 }

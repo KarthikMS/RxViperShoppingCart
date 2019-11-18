@@ -12,6 +12,7 @@
                 <outlet property="buyButton" destination="NP0-Ju-sTl" id="NvZ-9d-r0j"/>
                 <outlet property="emptyCartButton" destination="vgW-Al-ueX" id="j9E-ue-T9X"/>
                 <outlet property="tableView" destination="slG-Wx-hBx" id="UZX-td-qo6"/>
+                <outlet property="totalCostLabel" destination="aDz-JJ-cOg" id="IcZ-nc-hKk"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,21 +34,31 @@
                     <state key="normal" title="Buy"/>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="slG-Wx-hBx">
-                    <rect key="frame" x="0.0" y="44" width="414" height="607"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="612"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total cost: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDz-JJ-cOg">
+                    <rect key="frame" x="0.0" y="691" width="414" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="NP0-Ju-sTl" firstAttribute="centerX" secondItem="vgW-Al-ueX" secondAttribute="centerX" id="6Js-N1-E9z"/>
+                <constraint firstItem="NP0-Ju-sTl" firstAttribute="top" secondItem="aDz-JJ-cOg" secondAttribute="bottom" constant="30" id="FgO-FO-2qd"/>
                 <constraint firstItem="slG-Wx-hBx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Jja-ML-fnB"/>
                 <constraint firstItem="vgW-Al-ueX" firstAttribute="top" secondItem="NP0-Ju-sTl" secondAttribute="bottom" constant="28" id="LR7-P0-1LO"/>
                 <constraint firstItem="slG-Wx-hBx" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="LhF-CN-Ufg"/>
-                <constraint firstItem="NP0-Ju-sTl" firstAttribute="top" secondItem="slG-Wx-hBx" secondAttribute="bottom" constant="100" id="Sam-d1-DgV"/>
                 <constraint firstItem="slG-Wx-hBx" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="UbP-DC-A0h"/>
                 <constraint firstItem="NP0-Ju-sTl" firstAttribute="width" secondItem="vgW-Al-ueX" secondAttribute="width" multiplier="0.29703" id="dce-XI-e1n"/>
                 <constraint firstItem="vgW-Al-ueX" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="e5D-g3-fxs"/>
+                <constraint firstItem="aDz-JJ-cOg" firstAttribute="height" secondItem="NP0-Ju-sTl" secondAttribute="height" id="eDH-6J-D2x"/>
                 <constraint firstItem="NP0-Ju-sTl" firstAttribute="height" secondItem="vgW-Al-ueX" secondAttribute="height" multiplier="0.75" id="ekw-Wz-7zd"/>
+                <constraint firstItem="aDz-JJ-cOg" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="nRC-JC-V2h"/>
+                <constraint firstItem="aDz-JJ-cOg" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="qTb-fh-CWW"/>
+                <constraint firstItem="aDz-JJ-cOg" firstAttribute="top" secondItem="slG-Wx-hBx" secondAttribute="bottom" constant="35" id="wSt-Ey-3rF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="vgW-Al-ueX" secondAttribute="bottom" constant="13" id="zEE-v5-RX3"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

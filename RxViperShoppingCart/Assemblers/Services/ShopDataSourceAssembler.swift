@@ -7,7 +7,5 @@
 //
 
 class ShopDataSourceAssembler {
-	static var shared: ShopDataSource {
-		ShopDataSourceImpl()
-	}
+	static let shared: ShopDataSource = ShopDataSourceImpl()
 }

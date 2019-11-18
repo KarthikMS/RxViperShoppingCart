@@ -17,12 +17,7 @@ class ShopPresenter: ShopPresenterProtocol {
 		}
 	}
 
-	var interactor: ShopInteractorObservablesForPresenterProvider! {
-		didSet {
-//			observeInteractor()
-		}
-	}
-
+	var interactor: ShopInteractorObservablesForPresenterProvider!
 	var router: ShopRouterProtocol!
 
 	// MARK: - Subjects for view
@@ -51,7 +46,7 @@ extension ShopPresenter {
 				self?.observeInteractor()
 				self?.fetchShopItemsSubject.onNext(())
 			})
-		.disposed(by: disposeBag)
+			.disposed(by: disposeBag)
 	}
 
 	func observeInteractor() {

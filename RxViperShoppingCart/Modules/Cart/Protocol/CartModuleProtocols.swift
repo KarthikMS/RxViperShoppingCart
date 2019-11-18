@@ -23,6 +23,7 @@ protocol CartInteractorProtocol: CartInteractorObservablesForPresenterProvider {
 protocol CartPresenterProtocol: CartPresenterDriversForViewProvider, CartPresenterObservablesForInteractorProvider, CartPresenterObservablesForRouterProvider {
 	var view: CartViewObservablesForPresenterProvider! { get set }
 	var interactor: CartInteractorObservablesForPresenterProvider! { get set }
+	var router: CartRouterProtocol! { get set }
 	func observeView()
 	func observeInteractor()
 }
@@ -56,19 +57,26 @@ protocol CartPresenterObservablesForRouterProvider {
 
 // MARK: - Models
 struct CartViewObservablesForPresenter {
-
+	let buyButtonTapObservable: Observable<Void>
+	let emptyCartButtonTapObservable: Observable<Void>
 }
 
 struct CartPresenterDriversForView {
-
+	let tableViewDriver: Driver<[(shopItem: ShopItem, cart: CartService)]>
+	let totalCostLabelDriver: Driver<String>
+	let buyButtonTitleDriver: Driver<String>
 }
 
 struct CartInteractorObservablesForPresenter {
-
+	let cart: CartService
+	let cartItemsObservable: Observable<[CartItem]>
+	let totalNumberOfItemsInCartObservable: Observable<Int>
+	let totalCostOfItemsInCartObservable: Observable<Int>
 }
 
 struct CartPresenterObservablesForInteractor {
-
+	let buyItemsInCartObservable: Observable<Void>
+	let emptyCartObservable: Observable<Void>
 }
 
 struct CartPresenterObservablesForRouter {

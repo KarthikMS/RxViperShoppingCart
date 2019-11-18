@@ -27,7 +27,10 @@ class ShopInteractor: ShopInteractorProtocol {
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
+}
 
+// MARK: - ShopInteractorProtocol
+extension ShopInteractor {
 	func observePresenter() {
 		let presenterObservables = presenter.observablesForInteractor!
 
