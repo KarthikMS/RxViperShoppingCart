@@ -92,6 +92,11 @@ extension ShopViewController {
 			.totalCostLabelTextDriver
 			.drive(totalCostLabel.rx.text)
 			.disposed(by: disposeBag)
+
+		presenterObservables
+			.emptyCartButtonIsEnabledDriver
+			.drive(emptyCartButton.rx.isEnabled)
+			.disposed(by: disposeBag)
 	}
 }
 

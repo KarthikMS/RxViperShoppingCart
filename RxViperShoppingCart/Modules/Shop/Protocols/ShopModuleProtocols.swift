@@ -71,6 +71,7 @@ struct ShopPresenterObservablesForView {
 	let cartButtonIsEnabledDriver: Driver<Bool>
 	let cartButtonTitleDriver: Driver<String>
 	let totalCostLabelTextDriver: Driver<String>
+	let emptyCartButtonIsEnabledDriver: Driver<Bool>
 }
 
 struct ShopInteractorObservablesForPresenter {

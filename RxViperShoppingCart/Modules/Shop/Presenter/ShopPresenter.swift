@@ -30,6 +30,7 @@ class ShopPresenter: ShopPresenterProtocol {
 	private var cartButtonIsEnabledSubject = PublishSubject<Bool>()
 	private var cartButtonTitleSubject = PublishSubject<String>()
 	private var totalCostLabelTextSubject = PublishSubject<String>()
+	private let emptyCartButtonIsEnabledSubject = PublishSubject<Bool>()
 
 	// MARK: - Subjects for interactor
 	private let fetchShopItemsSubject = PublishSubject<Void>()
@@ -85,6 +86,12 @@ extension ShopPresenter {
 			.map { "Total Cost: Rs.\($0)" }
 			.subscribe(totalCostLabelTextSubject)
 			.disposed(by: disposeBag)
+
+		interactorObservables
+			.totalNumberOfItemsInCartObservable
+			.map { $0 != 0 }
+			.subscribe(emptyCartButtonIsEnabledSubject)
+			.disposed(by: disposeBag)
 	}
 }
 
@@ -95,7 +102,8 @@ extension ShopPresenter {
 			tableViewDriver: tableViewSubject.asDriver(onErrorJustReturn: []),
 			cartButtonIsEnabledDriver: cartButtonIsEnabledSubject.asDriver(onErrorJustReturn: false),
 			cartButtonTitleDriver: cartButtonTitleSubject.asDriver(onErrorJustReturn: "0"),
-			totalCostLabelTextDriver: totalCostLabelTextSubject.asDriver(onErrorJustReturn: "Total cost: Rs.0")
+			totalCostLabelTextDriver: totalCostLabelTextSubject.asDriver(onErrorJustReturn: "Total cost: Rs.0"),
+			emptyCartButtonIsEnabledDriver: emptyCartButtonIsEnabledSubject.asDriver(onErrorJustReturn: false)
 		)
 	}
 }
