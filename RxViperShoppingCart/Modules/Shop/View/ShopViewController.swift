@@ -84,7 +84,6 @@ extension ShopViewController {
 
 		presenterObservables
 			.cartButtonIsEnabledDriver
-			.debug("My debug")
 			.drive(cartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 
