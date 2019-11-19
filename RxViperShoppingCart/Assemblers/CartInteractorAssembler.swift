@@ -10,13 +10,13 @@ class CartInteractorAssembler {
 	private static var _shared: CartInteractor?
 
 	// TODO: Use Swinject containers and remove these args
-	static func createInstance(shopDataSource: ShopDataSource, cart: CartService) -> CartInteractor {
+	static func createInstance() -> CartInteractor {
 		if let shared = self._shared {
 			return shared
 		} else {
 			self._shared = CartInteractor(
-				shopDataSource: shopDataSource,
-				cart: cart,
+				shopDataSource: ShopDataSourceAssembler.shared,
+				cart: CartServiceAssembler.shared,
 				purchaseService: PurchaseServiceImpl()
 			)
 			return self._shared!

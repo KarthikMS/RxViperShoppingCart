@@ -30,7 +30,7 @@
                     <state key="normal" title="Empty Cart"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NP0-Ju-sTl">
-                    <rect key="frame" x="192" y="751" width="30" height="30"/>
+                    <rect key="frame" x="0.0" y="751" width="414" height="30"/>
                     <state key="normal" title="Buy"/>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="slG-Wx-hBx">
@@ -50,9 +50,9 @@
                 <constraint firstItem="NP0-Ju-sTl" firstAttribute="top" secondItem="aDz-JJ-cOg" secondAttribute="bottom" constant="30" id="FgO-FO-2qd"/>
                 <constraint firstItem="slG-Wx-hBx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Jja-ML-fnB"/>
                 <constraint firstItem="vgW-Al-ueX" firstAttribute="top" secondItem="NP0-Ju-sTl" secondAttribute="bottom" constant="28" id="LR7-P0-1LO"/>
+                <constraint firstItem="NP0-Ju-sTl" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="LTm-kI-iNt"/>
                 <constraint firstItem="slG-Wx-hBx" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="LhF-CN-Ufg"/>
                 <constraint firstItem="slG-Wx-hBx" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="UbP-DC-A0h"/>
-                <constraint firstItem="NP0-Ju-sTl" firstAttribute="width" secondItem="vgW-Al-ueX" secondAttribute="width" multiplier="0.29703" id="dce-XI-e1n"/>
                 <constraint firstItem="vgW-Al-ueX" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="e5D-g3-fxs"/>
                 <constraint firstItem="aDz-JJ-cOg" firstAttribute="height" secondItem="NP0-Ju-sTl" secondAttribute="height" id="eDH-6J-D2x"/>
                 <constraint firstItem="NP0-Ju-sTl" firstAttribute="height" secondItem="vgW-Al-ueX" secondAttribute="height" multiplier="0.75" id="ekw-Wz-7zd"/>

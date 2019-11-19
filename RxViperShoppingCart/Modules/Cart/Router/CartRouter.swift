@@ -19,16 +19,13 @@ class CartRouter: CartRouterProtocol {
 
 // MARK: - CartRouterProtocol
 extension CartRouter {
-	static func createModule(shopDataSource: ShopDataSource, cart: CartService) -> CartViewController {
+	static func createModule() -> CartViewController {
 		guard let view = mainStoryboard.instantiateViewController(identifier: "CartScreen") as? CartViewController else {
 			assertionFailure()
 			return CartViewController()
 		}
 		let presenter = CartPresenter()
-		let interactor = CartInteractorAssembler.createInstance(
-			shopDataSource: shopDataSource,
-			cart: cart
-		)
+		let interactor = CartInteractorAssembler.createInstance()
 		let router = CartRouter()
 
 		view.presenter = presenter

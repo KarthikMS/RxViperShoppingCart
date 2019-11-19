@@ -9,6 +9,8 @@
 import RxSwift
 import RxCocoa
 
+//play with static let. Check if static var returns the same instance
+
 // MARK: - Definition Protocols
 protocol CartViewProtocol: CartViewObservablesForPresenterProvider {
 	var presenter: CartPresenterDriversForViewProvider! { get set }
@@ -29,7 +31,7 @@ protocol CartPresenterProtocol: CartPresenterDriversForViewProvider, CartPresent
 }
 
 protocol CartRouterProtocol {
-	static func createModule(shopDataSource: ShopDataSource, cart: CartService) -> CartViewController
+	static func createModule() -> CartViewController
 	var presenter: CartPresenterObservablesForRouterProvider! { get set }
 	func observePresenter()
 }

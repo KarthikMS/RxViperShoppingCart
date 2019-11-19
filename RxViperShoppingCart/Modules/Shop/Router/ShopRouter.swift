@@ -52,10 +52,7 @@ extension ShopRouter {
 			.cartButtonTapObservable
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] in
-				let cartViewController = CartRouter.createModule(
-					shopDataSource: ShopDataSourceAssembler.shared,
-					cart: CartServiceAssembler.shared
-				)
+				let cartViewController = CartRouter.createModule()
 				self?.navController.pushViewController(cartViewController, animated: true)
 			})
 			.disposed(by: disposeBag)

@@ -26,9 +26,9 @@ class CartPresenter: CartPresenterProtocol {
 	var router: CartRouterProtocol!
 
 	// MARK: - Subjects for view
-	private let tableViewSubject = PublishSubject<[(shopItem: ShopItem, cart: CartService)]>()
-	private let totalCostLabelSubject = PublishSubject<String>()
-	private let buyButtonTitleSubject = PublishSubject<String>()
+	private let tableViewSubject = BehaviorSubject<[(shopItem: ShopItem, cart: CartService)]>(value: [])
+	private let totalCostLabelSubject = BehaviorSubject<String>(value: "Total cost: 0")
+	private let buyButtonTitleSubject = BehaviorSubject<String>(value: "Buy")
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
