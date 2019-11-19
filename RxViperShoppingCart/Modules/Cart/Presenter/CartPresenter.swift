@@ -33,6 +33,7 @@ class CartPresenter: CartPresenterProtocol {
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 	private var viewObservables: CartViewObservablesForPresenter!
+	private var interactorObservables: CartInteractorObservablesForPresenter!
 }
 
 // MARK: - CartPresenterProtocol
@@ -42,7 +43,7 @@ extension CartPresenter {
 	}
 
 	func observeInteractor() {
-		let interactorObservables = interactor.observablesForPresenter
+		interactorObservables = interactor.observablesForPresenter
 		let cart = interactorObservables.cart
 
 		interactorObservables
@@ -91,6 +92,8 @@ extension CartPresenter {
 // MARK: - CartPresenterObservablesForRouterProvider
 extension CartPresenter {
 	var observablesForRouter: CartPresenterObservablesForRouter {
-		CartPresenterObservablesForRouter()
+		CartPresenterObservablesForRouter(
+			cartIsEmptyObservable: interactorObservables.cartIsEmptyObservable
+		)
 	}
 }

@@ -31,8 +31,9 @@ protocol CartPresenterProtocol: CartPresenterDriversForViewProvider, CartPresent
 }
 
 protocol CartRouterProtocol {
-	static func createModule() -> CartViewController
+	static func createModule(navController: UINavigationController) -> CartViewController
 	var presenter: CartPresenterObservablesForRouterProvider! { get set }
+	var navController: UINavigationController { get }
 	func observePresenter()
 }
 
@@ -73,6 +74,7 @@ struct CartInteractorObservablesForPresenter {
 	let cart: CartService
 	let cartItemsObservable: Observable<[CartItem]>
 	let totalNumberOfItemsInCartObservable: Observable<Int>
+	let cartIsEmptyObservable: Observable<Void>
 	let totalCostOfItemsInCartObservable: Observable<Int>
 }
 
@@ -82,5 +84,5 @@ struct CartPresenterObservablesForInteractor {
 }
 
 struct CartPresenterObservablesForRouter {
-
+	let cartIsEmptyObservable: Observable<Void>
 }

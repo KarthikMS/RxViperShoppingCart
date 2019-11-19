@@ -11,7 +11,18 @@ import RxCocoa
 
 class CartRouter: CartRouterProtocol {
 	// MARK: - Dependencies
-	var presenter: CartPresenterObservablesForRouterProvider!
+	var presenter: CartPresenterObservablesForRouterProvider! {
+		didSet {
+			observePresenter()
+		}
+	}
+
+	var navController: UINavigationController
+
+	// MARK: - Initializers
+	init(navController: UINavigationController) {
+		self.navController = navController
+	}
 
 	// MARK: - Properties
 	private let disposeBag = DisposeBag()
@@ -19,14 +30,14 @@ class CartRouter: CartRouterProtocol {
 
 // MARK: - CartRouterProtocol
 extension CartRouter {
-	static func createModule() -> CartViewController {
+	static func createModule(navController: UINavigationController) -> CartViewController {
 		guard let view = mainStoryboard.instantiateViewController(identifier: "CartScreen") as? CartViewController else {
 			assertionFailure()
 			return CartViewController()
 		}
 		let presenter = CartPresenter()
 		let interactor = CartInteractorAssembler.createInstance()
-		let router = CartRouter()
+		let router = CartRouter(navController: navController)
 
 		view.presenter = presenter
 		presenter.view = view
@@ -39,6 +50,13 @@ extension CartRouter {
 	}
 
 	func observePresenter() {
+		presenter.observablesForRouter
+			.cartIsEmptyObservable
+			.subscribeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] in
+				self?.goBackToShop()
+			})
+			.disposed(by: disposeBag)
 	}
 }
 
@@ -47,4 +65,8 @@ private extension CartRouter {
 	static var mainStoryboard: UIStoryboard {
         return UIStoryboard(name: "Main", bundle: Bundle.main)
     }
+
+	private func goBackToShop() {
+		navController.popViewController(animated: true)
+	}
 }
