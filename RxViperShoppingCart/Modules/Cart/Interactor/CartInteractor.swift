@@ -59,7 +59,7 @@ extension CartInteractor {
 		CartInteractorObservablesForPresenter(
 			cart: cart,
 			cartItemsObservable: cart.itemsObservable,
-			totalNumberOfItemsInCartObservable: cart.totalNumberOfItemsObsercable,
+			totalNumberOfItemsInCartObservable: cart.totalNumberOfItemsObservable,
 			cartIsEmptyObservable: cart.isEmptyObservable,
 			totalCostOfItemsInCartObservable: cart.totalCostObservable
 		)

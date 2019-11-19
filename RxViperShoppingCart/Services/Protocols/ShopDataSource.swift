@@ -10,5 +10,5 @@ import RxSwift
 
 protocol ShopDataSource {
 	func fetchItems()
-	var itemsObservable: Observable<[ShopItem]> { get }
+	var itemsObservable: BehaviorSubject<[ShopItem]> { get }
 }

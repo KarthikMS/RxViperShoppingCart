@@ -7,28 +7,63 @@
 //
 
 import XCTest
+import RxSwift
 @testable import RxViperShoppingCart
 
+class MockShopPresenter: ShopPresenterObservablesForInteractorProvider {
+	let fetchShopItemsSubject = PublishSubject<Void>()
+	let emptyCartSubject = PublishSubject<Void>()
+
+	var observablesForInteractor: ShopPresenterObservablesForInteractor! {
+		ShopPresenterObservablesForInteractor(
+			fetchShopItemsObservable: fetchShopItemsSubject,
+			emptyCartObservable: emptyCartSubject
+		)
+	}
+}
+
 class RxViperShoppingCartTests: XCTestCase {
+	var shopInteractor: ShopInteractor!
+	var cart: CartService!
+	var shopDataSource: ShopDataSource!
+	var mockShopPresenter: MockShopPresenter!
+	var interactorObservablesForPresenter: ShopInteractorObservablesForPresenter!
+
+	let disposeBag = DisposeBag()
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+		cart = Cart()
+		shopDataSource = ShopDataSourceImpl()
+		shopInteractor = ShopInteractor(cart: cart, shopDataSource: shopDataSource)
+		mockShopPresenter = MockShopPresenter()
+		shopInteractor.presenter = mockShopPresenter
+		interactorObservablesForPresenter = shopInteractor.observablesForPresenter
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+	func test1() {
+//		let observedCartItems = BehaviorSubject<[CartItem]>(value: [])
+//		interactorObservablesForPresenter
+//			.cartItemsObservable
+//			.subscribe(observedCartItems)
+//			.disposed(by: disposeBag)
+//
+//		XCTAssert(try! observedCartItems.value().isEmpty)
+//
+//		let itemInCart = try! shopDataSource.itemsObservable.value()[0]
+//		cart.add(itemInCart)
+//
+//		XCTAssertEqual(observedCartItems.forcedValue.count, 1)
+//		XCTAssertEqual(observedCartItems.forcedValue[0].shopItem.id, itemInCart.id)
+//		XCTAssertEqual(observedCartItems.forcedValue[0].count, 1)
+//
+//		mockShopPresenter.emptyCartSubject.onNext(())
+//
+//		XCTAssert(observedCartItems.forcedValue.isEmpty)
+	}
+}
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+extension BehaviorSubject {
+	var forcedValue: Element {
+		try! self.value()
+	}
 }

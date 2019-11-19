@@ -10,7 +10,7 @@ import RxSwift
 
 class ShopDataSourceImpl: ShopDataSource {
 	// MARK: - Properties
-	private let HardCodedItems = [
+	private static let HardCodedItems = [
 		ShopItem(id: "1", name: "Apple", cost: 10),
 		ShopItem(id: "2", name: "Ball", cost: 20),
 		ShopItem(id: "3", name: "Crayon", cost: 30),
@@ -23,16 +23,16 @@ class ShopDataSourceImpl: ShopDataSource {
 		ShopItem(id: "10", name: "Jug", cost: 100)
 	]
 
-	private let itemsSubject = PublishSubject<[ShopItem]>()
+	private let itemsSubject = BehaviorSubject<[ShopItem]>(value: [])
 }
 
 // MARK: ShopDataSource
 extension ShopDataSourceImpl {
 	func fetchItems() {
-		itemsSubject.onNext(HardCodedItems)
+		itemsSubject.onNext(ShopDataSourceImpl.HardCodedItems)
 	}
 
-	var itemsObservable: Observable<[ShopItem]> {
+	var itemsObservable: BehaviorSubject<[ShopItem]> {
 		itemsSubject
 	}
 }

@@ -24,7 +24,7 @@ extension Cart {
 
 	var isEmptyObservable: Observable<Void> {
 //		itemsObservable.filterMap { $0.isEmpty ? .map(Void()) : .ignore }
-		totalNumberOfItemsObsercable
+		totalNumberOfItemsObservable
 			.map { $0 == 0 }
 			.filterMap { $0 ? .map(Void()) : .ignore }
 	}
@@ -47,7 +47,7 @@ extension Cart {
 		}
 	}
 
-	var totalNumberOfItemsObsercable: Observable<Int> {
+	var totalNumberOfItemsObservable: Observable<Int> {
 		itemsSubject.map {
 			$0.reduce(0) { (total, item) -> Int in
 				total + item.count

@@ -58,7 +58,7 @@ extension ShopInteractor {
 			cart: cart,
 			shopItemsObservable: shopDataSource.itemsObservable,
 			cartItemsObservable: cart.itemsObservable,
-			totalNumberOfItemsInCartObservable: cart.totalNumberOfItemsObsercable,
+			totalNumberOfItemsInCartObservable: cart.totalNumberOfItemsObservable,
 			totalCostOfItemsInCartObservable: cart.totalCostObservable
 		)
 	}
