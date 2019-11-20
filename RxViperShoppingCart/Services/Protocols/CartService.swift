@@ -10,7 +10,7 @@ import RxSwift
 
 protocol CartService {
 	var itemsObservable: Observable<[CartItem]> { get }
-	var isEmptyObservable: Observable<Void> { get }
+	var isEmptyObservable: Observable<Bool> { get }
 	func count(of item: ShopItem) -> Int
 	func countObservable(of item: ShopItem) -> Observable<Int>
 	var totalCostObservable: Observable<Int> { get }

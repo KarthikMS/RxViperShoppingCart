@@ -22,11 +22,8 @@ extension Cart {
 		itemsSubject
 	}
 
-	var isEmptyObservable: Observable<Void> {
-//		itemsObservable.filterMap { $0.isEmpty ? .map(Void()) : .ignore }
-		totalNumberOfItemsObservable
-			.map { $0 == 0 }
-			.filterMap { $0 ? .map(Void()) : .ignore }
+	var isEmptyObservable: Observable<Bool> {
+		totalNumberOfItemsObservable.map { $0 == 0 }
 	}
 
 	func count(of item: ShopItem) -> Int {

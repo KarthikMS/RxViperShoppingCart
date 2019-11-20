@@ -9,6 +9,10 @@
 import RxSwift
 import RxCocoa
 
+private struct CartPresenterSubjectsForRouter {
+	let cartIsEmpty = PublishSubject<Void>()
+}
+
 class CartPresenter: CartPresenterProtocol {
 	// MARK: - Dependencies
 	var view: CartViewObservablesForPresenterProvider! {
@@ -34,6 +38,7 @@ class CartPresenter: CartPresenterProtocol {
 	private let disposeBag = DisposeBag()
 	private var viewObservables: CartViewObservablesForPresenter!
 	private var interactorObservables: CartInteractorObservablesForPresenter!
+	private let subjectsForRouter = CartPresenterSubjectsForRouter()
 }
 
 // MARK: - CartPresenterProtocol
@@ -62,6 +67,12 @@ extension CartPresenter {
 			.totalCostOfItemsInCartObservable
 			.map { "Total cost: Rs.\($0)" }
 			.subscribe(totalCostLabelSubject)
+			.disposed(by: disposeBag)
+
+		interactorObservables
+			.cartIsEmptyObservable
+			.filterMap { $0 == true ? .map(Void()) : .ignore }
+			.subscribe(subjectsForRouter.cartIsEmpty)
 			.disposed(by: disposeBag)
 	}
 }
@@ -93,7 +104,7 @@ extension CartPresenter {
 extension CartPresenter {
 	var observablesForRouter: CartPresenterObservablesForRouter {
 		CartPresenterObservablesForRouter(
-			cartIsEmptyObservable: interactorObservables.cartIsEmptyObservable
+			cartIsEmptyObservable: subjectsForRouter.cartIsEmpty
 		)
 	}
 }

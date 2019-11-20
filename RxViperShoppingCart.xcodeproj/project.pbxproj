@@ -508,6 +508,7 @@
 				D91A2F55237C14E900F71942 /* Sources */,
 				D91A2F56237C14E900F71942 /* Frameworks */,
 				D91A2F57237C14E900F71942 /* Resources */,
+				82BD02B0C445BFE956A827A1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -671,6 +672,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		82BD02B0C445BFE956A827A1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCartTests/Pods-RxViperShoppingCartTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCartTests/Pods-RxViperShoppingCartTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RxViperShoppingCartTests/Pods-RxViperShoppingCartTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B8CA12C9F1AB9229D342F091 /* [CP] Check Pods Manifest.lock */ = {

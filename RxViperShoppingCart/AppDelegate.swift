@@ -14,6 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+		#if DEBUG
+		if getenv("runningTests") != nil {
+				return true
+		}
+		#endif
 		let navigationController = ShopRouter.createModule()
 
 		window = UIWindow(frame: UIScreen.main.bounds)

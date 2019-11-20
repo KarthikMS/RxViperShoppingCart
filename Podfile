@@ -13,6 +13,8 @@ target 'RxViperShoppingCart' do
   target 'RxViperShoppingCartTests' do
     inherit! :search_paths
     # Pods for testing
+		pod 'Quick'
+		pod 'Nimble'
   end
 
   target 'RxViperShoppingCartUITests' do

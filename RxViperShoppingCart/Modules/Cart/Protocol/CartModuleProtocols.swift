@@ -74,7 +74,7 @@ struct CartInteractorObservablesForPresenter {
 	let cart: CartService
 	let cartItemsObservable: Observable<[CartItem]>
 	let totalNumberOfItemsInCartObservable: Observable<Int>
-	let cartIsEmptyObservable: Observable<Void>
+	let cartIsEmptyObservable: Observable<Bool>
 	let totalCostOfItemsInCartObservable: Observable<Int>
 }
 
