@@ -10,12 +10,9 @@ import UIKit
 import RxSwift
 
 class ShopRouter: ShopRouterProtocol {
-	// MARK: - Properties
-	var presenter: ShopPresenterObservablesForRouterProvider! {
-		didSet {
-			observePresenter()
-		}
-	}
+	// MARK: - Dependencies
+//	var presenter: ShopRouterInputsFromPresenterProvider!
+	var presenter: ShopPresenterProtocol!
 
 	var navController: UINavigationController!
 
@@ -44,19 +41,46 @@ extension ShopRouter {
 		router.presenter = presenter
 		presenter.router = router
 
+//		presenter.bindInputsFromView()
+		router.bind(view, and: presenter, disposeBag: router.disposeBag)
+		presenter.bindInputsFromInteractor()
+
 		return navController
 	}
 
-	func observePresenter() {
-		presenter.observablesForRouter
-			.cartButtonTapObservable
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] in
-				guard let self = self else { return }
-				let cartViewController = CartRouter.createModule(navController: self.navController)
-				self.navController.pushViewController(cartViewController, animated: true)
-			})
+	func bind(_ view: ShopViewProtocol, and presenter: ShopPresenterProtocol, disposeBag: DisposeBag) {
+		view
+			.viewDidLoadObservable
+			.subscribe(presenter.viewDidLoadSubject)
 			.disposed(by: disposeBag)
+
+		view
+			.cartButtonTapObservable
+			.subscribe(presenter.cartButtonTapSubject)
+			.disposed(by: disposeBag)
+
+		view
+			.emptyCartButtonTapObservable
+			.subscribe(presenter.emptyCartButtonTapSubject)
+			.disposed(by: disposeBag)
+	}
+
+//	func observePresenter() {
+//		presenter.observablesForRouter
+//			.cartButtonTapObservable
+//			.observeOn(MainScheduler.instance)
+//			.subscribe(onNext: { [weak self] in
+//				guard let self = self else { return }
+//				let cartViewController = CartRouter.createModule(navController: self.navController)
+//				self.navController.pushViewController(cartViewController, animated: true)
+//			})
+//			.disposed(by: disposeBag)
+//	}
+}
+
+extension ShopRouter {
+	var presentCartViewObserver: PublishSubject<Void> {
+		PublishSubject<Void>()
 	}
 }
 

@@ -12,11 +12,8 @@ import RxCocoa
 
 class ShopViewController: UIViewController, ShopViewProtocol {
 	// MARK: - Dependencies
-	var presenter: ShopPresenterObservablesForViewProvider! {
-		didSet {
-//			observePresenter()
-		}
-	}
+//	var presenter: (ShopViewInputsFromPresenterProvider & ShopViewOutputsSink)!
+	var presenter: ShopPresenterProtocol!
 
 	// MARK: - IBOutlets
 	@IBOutlet private weak var tableView: UITableView!
@@ -34,6 +31,12 @@ class ShopViewController: UIViewController, ShopViewProtocol {
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 	private let CellIdentifier = "CellIdentifier"
+
+	private let tableViewDriver = PublishSubject<[(item: ShopItem, cart: CartService)]>()
+	private let cartButtonIsEnabledDriver = PublishSubject<Bool>()
+	private let cartButtonTitleDriver = PublishSubject<String>()
+	private let totalCostLabelTextDriver = PublishSubject<String>()
+	private let emptyCartButtonIsEnabledDriver = PublishSubject<Bool>()
 }
 
 // MARK: - View Life Cycle
@@ -42,8 +45,8 @@ extension ShopViewController {
         super.viewDidLoad()
 
 		setUpTableView()
-		observePresenter()
-		sendInputsToPresenter()
+		bindInputsFromPresenter()
+		bindOutputsToPresenter()
 
 		viewDidLoadSubject.onCompleted()
     }
@@ -55,9 +58,9 @@ private extension ShopViewController {
 		tableView.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: CellIdentifier)
 	}
 
-	func sendInputsToPresenter() {
+	func bindOutputsToPresenter() {
 		cartButton.rx.tap
-			.subscribe(cartButtonTapSubject)
+			.subscribe(presenter.cartButtonTapSubject)
 			.disposed(by: disposeBag)
 
 		emptyCartButton.rx.tap
@@ -68,44 +71,70 @@ private extension ShopViewController {
 
 // MARK: - ShopViewProtocol
 extension ShopViewController {
-	func observePresenter() {
-		let presenterObservables = presenter.observablesForView!
-		presenterObservables
-			.tableViewDriver
+	func bindInputsFromPresenter() {
+		tableViewDriverSubject
+			.asDriver(onErrorJustReturn: [])
 			.drive(tableView.rx.items(cellIdentifier: CellIdentifier, cellType: ItemTableViewCell.self)) { _, cellInfo, cell in
 				ItemTableViewCellRouter.configure(cell, for: cellInfo.item, cart: cellInfo.cart)
 			}
 			.disposed(by: disposeBag)
 
-		presenterObservables
-			.cartButtonTitleDriver
+		cartButtonTitleDriverSubject
+			.asDriver(onErrorJustReturn: "0")
 			.drive(cartButton.rx.title)
 			.disposed(by: disposeBag)
 
-		presenterObservables
-			.cartButtonIsEnabledDriver
+		cartButtonIsEnabledDriverSubject
+			.asDriver(onErrorJustReturn: false)
 			.drive(cartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 
-		presenterObservables
-			.totalCostLabelTextDriver
+		totalCostLabelTextDriverSubject
+			.asDriver(onErrorJustReturn: "Total cost: Rs.0")
 			.drive(totalCostLabel.rx.text)
 			.disposed(by: disposeBag)
 
-		presenterObservables
-			.emptyCartButtonIsEnabledDriver
+		emptyCartButtonIsEnabledDriverSubject
+			.asDriver(onErrorJustReturn: false)
 			.drive(emptyCartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 	}
 }
 
-// MARK: - ShopViewObservablesForPresenterProvider
+// MARK: - ShopPresenterOutputsForViewSink
 extension ShopViewController {
-	var observablesForPresenter: ShopViewObservablesForPresenter! {
-		ShopViewObservablesForPresenter(
-			viewDidLoadObservable: viewDidLoadSubject,
-			cartButtonTapObservable: cartButtonTapSubject,
-			emptyCartButtonTapObservable: emptyCartButtonTapSubject
-		)
+	var tableViewDriverSubject: PublishSubject<[(item: ShopItem, cart: CartService)]> {
+		tableViewDriver
+	}
+
+	var cartButtonIsEnabledDriverSubject: PublishSubject<Bool> {
+		cartButtonIsEnabledDriver
+	}
+
+	var cartButtonTitleDriverSubject: PublishSubject<String> {
+		cartButtonTitleDriver
+	}
+
+	var totalCostLabelTextDriverSubject: PublishSubject<String> {
+		totalCostLabelTextDriver
+	}
+
+	var emptyCartButtonIsEnabledDriverSubject: PublishSubject<Bool> {
+		emptyCartButtonIsEnabledDriver
+	}
+}
+
+// MARK: - ShopPresenterInputsFromViewProvider
+extension ShopViewController {
+	var cartButtonTapObservable: Observable<Void> {
+		cartButtonTapSubject
+	}
+
+	var viewDidLoadObservable: Observable<Void> {
+		viewDidLoadSubject
+	}
+
+	var emptyCartButtonTapObservable: Observable<Void> {
+		emptyCartButtonTapSubject
 	}
 }

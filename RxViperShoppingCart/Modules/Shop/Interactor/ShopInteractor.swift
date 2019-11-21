@@ -10,20 +10,23 @@ import RxSwift
 
 class ShopInteractor: ShopInteractorProtocol {
 	// MARK: - Dependencies
-	var presenter: ShopPresenterObservablesForInteractorProvider! {
-		didSet {
-			observePresenter()
-		}
-	}
+//	var presenter: (ShopInteractorInputsFromPresenterProvider & ShopInteractorOutputSink)!
+	var presenter: ShopPresenterProtocol!
 
-	private let cart: CartService
+	private let cartService: CartService
 	private let shopDataSource: ShopDataSource
 
 	// MARK: - Initializers
 	init(cart: CartService, shopDataSource: ShopDataSource) {
-		self.cart = cart
+		self.cartService = cart
 		self.shopDataSource = shopDataSource
+
+		setUpServiceSubscriptions()
 	}
+
+	// MARK: - Properties
+	private let fetchShopItemsSubject = PublishSubject<Void>()
+	private let emptyCartSubject = PublishSubject<Void>()
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
@@ -31,18 +34,14 @@ class ShopInteractor: ShopInteractorProtocol {
 
 // MARK: - ShopInteractorProtocol
 extension ShopInteractor {
-	func observePresenter() {
-		let presenterObservables = presenter.observablesForInteractor!
-
-		presenterObservables
-			.fetchShopItemsObservable
+	func setUpServiceSubscriptions() {
+		fetchShopItemsSubject
 			.subscribe(onNext: { [weak self] in
 				self?.shopDataSource.fetchItems()
 			})
 			.disposed(by: disposeBag)
 
-		presenterObservables
-			.emptyCartObservable
+		emptyCartSubject
 			.subscribe(onNext: { [weak self] in
 				self?.cart.empty()
 				self?.shopDataSource.fetchItems()
@@ -51,15 +50,36 @@ extension ShopInteractor {
 	}
 }
 
-// MARK: - ShopInteractorObservablesForPresenterProvider
+
+// MARK: - ShopPresenterOutputsForInteractorSink
 extension ShopInteractor {
-	var observablesForPresenter: ShopInteractorObservablesForPresenter! {
-		ShopInteractorObservablesForPresenter(
-			cart: cart,
-			shopItemsObservable: shopDataSource.itemsObservable,
-			cartItemsObservable: cart.itemsObservable,
-			totalNumberOfItemsInCartObservable: cart.totalNumberOfItemsObservable,
-			totalCostOfItemsInCartObservable: cart.totalCostObservable
-		)
+	var fetchShopItemsObserver: PublishSubject<Void> {
+		fetchShopItemsSubject
+	}
+
+	var emptyCartObserver: PublishSubject<Void> {
+		emptyCartSubject
+	}
+}
+
+extension ShopInteractor {
+	var cart: CartService {
+		cartService
+	}
+
+	var shopItemsObservable: Observable<[ShopItem]> {
+		shopDataSource.itemsObservable
+	}
+
+	var cartItemsObservable: Observable<[CartItem]> {
+		cart.itemsObservable
+	}
+
+	var totalNumberOfItemsInCartObservable: Observable<Int> {
+		cart.totalNumberOfItemsObservable
+	}
+
+	var totalCostOfItemsInCartObservable: Observable<Int> {
+		cart.totalCostObservable
 	}
 }

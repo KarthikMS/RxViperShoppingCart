@@ -11,13 +11,13 @@ import RxCocoa
 
 class ShopPresenter: ShopPresenterProtocol {
 	// MARK: - Dependencies
-	var view: ShopViewObservablesForPresenterProvider! {
+	var view: ShopViewProtocol!
+	var interactor: ShopInteractorProtocol! {
 		didSet {
-			observeView()
+//			bindInputsFromView()
+//			bindInputsFromInteractor()
 		}
 	}
-
-	var interactor: ShopInteractorObservablesForPresenterProvider!
 	var router: ShopRouterProtocol!
 
 	// MARK: - Subjects for view
@@ -32,92 +32,76 @@ class ShopPresenter: ShopPresenterProtocol {
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
-	private var viewObservables: ShopViewObservablesForPresenter!
+
+	private let cartButtonTapSub = PublishSubject<Void>()
+	private let viewDidLoadSub = PublishSubject<Void>()
+	private let emptyCartButtonTapSub = PublishSubject<Void>()
 }
 
-// MARK: - ShopPresenterProtocol
+// MARK: - NEW
+// MARK:
 extension ShopPresenter {
-	func observeView() {
-		self.viewObservables = view.observablesForPresenter!
-
-		viewObservables
-			.viewDidLoadObservable
-			.subscribe(onCompleted: { [weak self] in
-				self?.observeInteractor()
-				self?.fetchShopItemsSubject.onNext(())
-			})
-			.disposed(by: disposeBag)
+	var cartButtonTapSubject: PublishSubject<Void> {
+		cartButtonTapSub
 	}
 
-	func observeInteractor() {
-		let interactorObservables = interactor.observablesForPresenter!
-		let cart = interactorObservables.cart
+	var viewDidLoadSubject: PublishSubject<Void> {
+		viewDidLoadSub
+	}
 
-		interactorObservables
+	var emptyCartButtonTapSubject: PublishSubject<Void> {
+		emptyCartButtonTapSub
+	}
+}
+
+extension ShopPresenter {
+	func bindInputsFromView() {
+		view.viewDidLoadObservable
+			.subscribe(onCompleted: { [weak self] in
+				self?.interactor.fetchShopItemsObserver.onNext(())
+			})
+//			.subscribe(interactor.fetchShopItemsObserver)
+		.disposed(by: disposeBag)
+
+		// TODO: to router
+//		view.cartButtonTapObservable
+
+		view.emptyCartButtonTapObservable
+			.subscribe(interactor.emptyCartObserver)
+		.disposed(by: disposeBag)
+	}
+
+	func bindInputsFromInteractor() {
+		let cart = interactor.cart
+
+		interactor
 			.shopItemsObservable
 			.map { $0.map { ($0, cart) } }
-			.subscribe(onNext: { [weak self] in
-				self?.tableViewSubject.onNext($0)
-			})
-//			.subscribe(tableViewSubject)
+			.subscribe(view.tableViewDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorObservables
+		interactor
 			.totalNumberOfItemsInCartObservable
 			.map { String($0) }
-			.subscribe(cartButtonTitleSubject)
+			.subscribe(view.cartButtonTitleDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorObservables
+		interactor
 			.totalNumberOfItemsInCartObservable
 			.map { $0 != 0 }
-			.subscribe(onNext: { [weak self] in
-				self?.cartButtonIsEnabledSubject.onNext($0)
-			})
+			.subscribe(view.cartButtonIsEnabledDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorObservables
+		interactor
 			.totalCostOfItemsInCartObservable
 			.map { "Total Cost: Rs.\($0)" }
-			.subscribe(totalCostLabelTextSubject)
+			.subscribe(view.totalCostLabelTextDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorObservables
+		interactor
 			.totalNumberOfItemsInCartObservable
 			.map { $0 != 0 }
-			.subscribe(emptyCartButtonIsEnabledSubject)
+			.subscribe(view.emptyCartButtonIsEnabledDriverSubject)
 			.disposed(by: disposeBag)
-	}
-}
-
-// MARK: - ShopPresenterObservablesForViewProvider
-extension ShopPresenter {
-	var observablesForView: ShopPresenterObservablesForView! {
-		ShopPresenterObservablesForView(
-			tableViewDriver: tableViewSubject.asDriver(onErrorJustReturn: []),
-			cartButtonIsEnabledDriver: cartButtonIsEnabledSubject.asDriver(onErrorJustReturn: false),
-			cartButtonTitleDriver: cartButtonTitleSubject.asDriver(onErrorJustReturn: "0"),
-			totalCostLabelTextDriver: totalCostLabelTextSubject.asDriver(onErrorJustReturn: "Total cost: Rs.0"),
-			emptyCartButtonIsEnabledDriver: emptyCartButtonIsEnabledSubject.asDriver(onErrorJustReturn: false)
-		)
-	}
-}
-
-// MARK: - ShopPresenterObservablesForInteractorProvider
-extension ShopPresenter {
-	var observablesForInteractor: ShopPresenterObservablesForInteractor! {
-		ShopPresenterObservablesForInteractor(
-			fetchShopItemsObservable: fetchShopItemsSubject,
-			emptyCartObservable: viewObservables.emptyCartButtonTapObservable
-		)
-	}
-}
-
-// MARK: - ShopPresenterObservablesForRouterProvider
-extension ShopPresenter {
-	var observablesForRouter: ShopPresenterObservablesForRouter! {
-		ShopPresenterObservablesForRouter(
-			cartButtonTapObservable: viewObservables!.cartButtonTapObservable
-		)
 	}
 }
