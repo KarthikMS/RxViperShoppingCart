@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				return true
 		}
 		#endif
-		let navigationController = ShopRouter.createModule()
+		let navigationController = ShopModuleWireFrame.createModule()
 
 		window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController

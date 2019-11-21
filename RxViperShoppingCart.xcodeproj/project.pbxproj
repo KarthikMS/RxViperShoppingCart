@@ -11,6 +11,7 @@
 		B384F88DBB37BC70D8301469 /* Pods_RxViperShoppingCartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2CA33C4B256A2ABD575E26 /* Pods_RxViperShoppingCartUITests.framework */; };
 		D91A23812382E5B70050B8A6 /* CartInteractorAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A23802382E5B70050B8A6 /* CartInteractorAssembler.swift */; };
 		D91A238323841E1A0050B8A6 /* CartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A238223841E1A0050B8A6 /* CartTests.swift */; };
+		D91A2385238721240050B8A6 /* ShopModuleWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2384238721240050B8A6 /* ShopModuleWireFrame.swift */; };
 		D91A2F44237C14E700F71942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F43237C14E700F71942 /* AppDelegate.swift */; };
 		D91A2F46237C14E700F71942 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F45237C14E700F71942 /* SceneDelegate.swift */; };
 		D91A2F4B237C14E700F71942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D91A2F49237C14E700F71942 /* Main.storyboard */; };
@@ -82,6 +83,7 @@
 		C98319E2A6FA6AC28B91D92B /* Pods-RxViperShoppingCart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxViperShoppingCart.debug.xcconfig"; path = "Target Support Files/Pods-RxViperShoppingCart/Pods-RxViperShoppingCart.debug.xcconfig"; sourceTree = "<group>"; };
 		D91A23802382E5B70050B8A6 /* CartInteractorAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartInteractorAssembler.swift; sourceTree = "<group>"; };
 		D91A238223841E1A0050B8A6 /* CartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTests.swift; sourceTree = "<group>"; };
+		D91A2384238721240050B8A6 /* ShopModuleWireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopModuleWireFrame.swift; sourceTree = "<group>"; };
 		D91A2F40237C14E700F71942 /* RxViperShoppingCart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxViperShoppingCart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91A2F43237C14E700F71942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D91A2F45237C14E700F71942 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				D91A2F85237C532D00F71942 /* ShopRouter.swift */,
+				D91A2384238721240050B8A6 /* ShopModuleWireFrame.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -720,6 +723,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D91A2385238721240050B8A6 /* ShopModuleWireFrame.swift in Sources */,
 				D91A2F8E237C5EAE00F71942 /* ShopPresenter.swift in Sources */,
 				D91A2F84237C531B00F71942 /* ShopInteractor.swift in Sources */,
 				D95B22232381BB9600A68CB2 /* CartRouter.swift in Sources */,

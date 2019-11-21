@@ -12,59 +12,39 @@ import RxSwift
 class ShopRouter: ShopRouterProtocol {
 	// MARK: - Dependencies
 //	var presenter: ShopRouterInputsFromPresenterProvider!
-	var presenter: ShopPresenterProtocol!
+	let presenter: ShopPresenterProtocol
+	let navController: UINavigationController?
 
-	var navController: UINavigationController!
+	let goToCartSubject = PublishSubject<Void>()
+	var goToCartObserver: PublishSubject<Void> {
+		goToCartSubject
+	}
+
+	required init(presenter: ShopPresenterProtocol, navController: UINavigationController?) {
+		self.presenter = presenter
+		self.navController = navController
+
+		bindWithPresenter()
+	}
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 }
 
-// MARK: - ShopRouterProtocol
-extension ShopRouter {
-	static func createModule() -> UIViewController {
-		guard let navController = mainStoryboard.instantiateInitialViewController() as? UINavigationController,
-			let view = navController.children.first as? ShopViewController else {
-				assertionFailure()
-				return UINavigationController()
-		}
-
-		let presenter = ShopPresenter()
-		let interactor = ShopInteractorAssembler.createInstance()
-		let router = ShopRouter()
-		router.navController = navController
-
-		view.presenter = presenter
-		presenter.view = view
-		interactor.presenter = presenter
-		presenter.interactor = interactor
-		router.presenter = presenter
-		presenter.router = router
-
-//		presenter.bindInputsFromView()
-		router.bind(view, and: presenter, disposeBag: router.disposeBag)
-		presenter.bindInputsFromInteractor()
-
-		return navController
-	}
-
-	func bind(_ view: ShopViewProtocol, and presenter: ShopPresenterProtocol, disposeBag: DisposeBag) {
-		view
-			.viewDidLoadObservable
-			.subscribe(presenter.viewDidLoadSubject)
-			.disposed(by: disposeBag)
-
-		view
-			.cartButtonTapObservable
-			.subscribe(presenter.cartButtonTapSubject)
-			.disposed(by: disposeBag)
-
-		view
-			.emptyCartButtonTapObservable
-			.subscribe(presenter.emptyCartButtonTapSubject)
+// MARK: - Setup
+private extension ShopRouter {
+	func bindWithPresenter() {
+		presenter
+			.goToCartScreenObservable
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] in
+				guard let navController = self?.navController else { return }
+				let cartViewController = CartRouter.createModule(navController: navController)
+				navController.pushViewController(cartViewController, animated: true)
+			})
 			.disposed(by: disposeBag)
 	}
-
+}
 //	func observePresenter() {
 //		presenter.observablesForRouter
 //			.cartButtonTapObservable
@@ -76,17 +56,14 @@ extension ShopRouter {
 //			})
 //			.disposed(by: disposeBag)
 //	}
+
+// MARK: - ShopRouterProtocol
+extension ShopRouter {
+
 }
 
 extension ShopRouter {
 	var presentCartViewObserver: PublishSubject<Void> {
 		PublishSubject<Void>()
 	}
-}
-
-// MARK: - Util
-private extension ShopRouter {
-	static var mainStoryboard: UIStoryboard {
-        return UIStoryboard(name: "Main", bundle: Bundle.main)
-    }
 }
