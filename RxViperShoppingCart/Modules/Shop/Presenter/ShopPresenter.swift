@@ -39,6 +39,7 @@ class ShopPresenter: ShopPresenterProtocol {
 	let interactorTotalNumberOfItemsInCartSubject = PublishSubject<Int>()
 	let interactorTotalCostOfItemsInCartSubject = PublishSubject<Int>()
 
+	// MARK: - Initializations
 	init() {
 		setUpSubscriptions()
 	}
@@ -109,47 +110,6 @@ extension ShopPresenter {
 	}
 }
 
-extension ShopPresenter {
-//	func bindInputsFromInteractor() {
-//		let cart = interactor.cart
-//
-//		interactor
-//			.shopItemsObservable
-//			.map { $0.map { ($0, cart) } }
-////			.subscribe(view.tableViewDriverSubject)
-//			.subscribe(tableViewSubject)
-//			.disposed(by: disposeBag)
-//
-//		interactor
-//			.totalNumberOfItemsInCartObservable
-//			.map { String($0) }
-////			.subscribe(view.cartButtonTitleDriverSubject)
-//			.subscribe(cartButtonTitleSubject)
-//			.disposed(by: disposeBag)
-//
-//		interactor
-//			.totalNumberOfItemsInCartObservable
-//			.map { $0 != 0 }
-////			.subscribe(view.cartButtonIsEnabledDriverSubject)
-//			.subscribe(cartButtonIsEnabledSubject)
-//			.disposed(by: disposeBag)
-//
-//		interactor
-//			.totalCostOfItemsInCartObservable
-//			.map { "Total Cost: Rs.\($0)" }
-////			.subscribe(view.totalCostLabelTextDriverSubject)
-//			.subscribe(totalCostLabelTextSubject)
-//			.disposed(by: disposeBag)
-//
-//		interactor
-//			.totalNumberOfItemsInCartObservable
-//			.map { $0 != 0 }
-////			.subscribe(view.emptyCartButtonIsEnabledDriverSubject)
-//			.subscribe(emptyCartButtonIsEnabledSubject)
-//			.disposed(by: disposeBag)
-//	}
-}
-
 // MARK: - Presenter -> View
 extension ShopPresenter {
 	var tableViewDriverSubject: PublishSubject<[(item: ShopItem, cart: CartService)]> {
@@ -181,26 +141,6 @@ extension ShopPresenter {
 
 	var emptyCartObservable: Observable<Void> {
 		emptyCartSubject
-	}
-}
-
-// MARK: - Interactor -> Presenter
-extension ShopPresenter {
-	// TODO: Convert to constants
-//	var interactorShopItemsObservable: Observable<[ShopItem]> {
-//		interactorShopItemsSubject
-//	}
-
-	var interactorCartItemsObservable: Observable<[CartItem]> {
-		interactorCartItemsSubject
-	}
-
-	var interactorTotalNumberOfItemsInCartObservable: Observable<Int> {
-		interactorTotalNumberOfItemsInCartSubject
-	}
-
-	var interactorTotalCostOfItemsInCartObservable: Observable<Int> {
-		interactorTotalCostOfItemsInCartSubject
 	}
 }
 
