@@ -15,138 +15,80 @@ class ShopPresenter: ShopPresenterProtocol {
 	var interactor: ShopInteractorProtocol!
 	var router: ShopRouterProtocol!
 
-	// MARK: - Presenter -> View
-	private var tableViewSubject = PublishSubject<[(item: ShopItem, cart: CartService)]>()
-	private var cartButtonIsEnabledSubject = PublishSubject<Bool>()
-	private var cartButtonTitleSubject = PublishSubject<String>()
-	private var totalCostLabelTextSubject = PublishSubject<String>()
-	private let emptyCartButtonIsEnabledSubject = PublishSubject<Bool>()
-
-	// MARK: - Presenter -> Interactor
-	private let fetchShopItemsSubject = PublishSubject<Void>()
-	private let emptyCartSubject = PublishSubject<Void>()
-
-	// MARK: - Presenter -> Router
-	private let goToCartScreenSubject = PublishSubject<Void>()
-
-	// MARK: - View -> Presenter
-	private let viewDidLoadSub = PublishSubject<Void>()
-	private let cartButtonTapSub = PublishSubject<Void>()
-	private let emptyCartButtonTapSub = PublishSubject<Void>()
-
-	let interactorShopItemsObservable = PublishSubject<[ShopItem]>()
-	let interactorCartItemsSubject = PublishSubject<[CartItem]>()
-	let interactorTotalNumberOfItemsInCartSubject = PublishSubject<Int>()
-	let interactorTotalCostOfItemsInCartSubject = PublishSubject<Int>()
+	// MARK: - Properties
+	let inputSocketForView = ShopPresenterInputSocketForView()
+	let outputSocketForView = ShopPresenterOutputSocketForView()
+	let inputSocketForInteractor = ShopPresenterInputSocketForInteractor()
+	let outputSocketForInteractor = ShopPresenterOutputSocketForInteractor()
+	let outputSocketForRouter = ShopPresenterOutputSocketForRouter()
 
 	// MARK: - Initializations
 	init() {
-		setUpSubscriptions()
+		handleInputsFromView()
+		handleInputsFromInteractor()
 	}
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 }
 
+// MARK: - Setup
 private extension ShopPresenter {
-	func setUpSubscriptions() {
-		viewDidLoadSub
-			.subscribe(fetchShopItemsSubject)
+	func handleInputsFromView() {
+		inputSocketForView
+			.viewWillAppearSubject
+			.subscribe(outputSocketForInteractor.fetchShopItemsObservable)
 			.disposed(by: disposeBag)
 
-		cartButtonTapSub
-			.subscribe(goToCartScreenSubject)
+		inputSocketForView
+			.emptyCartButtonTapSubject
+			.subscribe(outputSocketForInteractor.emptyCartObservable)
 			.disposed(by: disposeBag)
 
-		emptyCartButtonTapSub
-			.subscribe(emptyCartSubject)
+		inputSocketForView
+			.cartButtonTapSubject
+			.subscribe(outputSocketForRouter.goToCartScreenObservable)
 			.disposed(by: disposeBag)
+	}
 
-		interactorShopItemsObservable
+	func handleInputsFromInteractor() {
+		inputSocketForInteractor
+			.interactorShopItemsObservable
 			.map { shopItems in
 				shopItems.map { [weak self] shopItem in
-					guard let self = self else { return (shopItem, Cart()) }
-					return (shopItem, self.interactor.cart)
+					guard let self = self,
+						let cart = try? self.inputSocketForInteractor.cartSubject.value() else {
+							assertionFailure()
+							return (shopItem, Cart()) }
+					return (shopItem, cart)
 				}
 			}
-			.subscribe(tableViewSubject)
+			.subscribe(outputSocketForView.tableViewDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorTotalNumberOfItemsInCartSubject
+		inputSocketForInteractor
+			.interactorTotalNumberOfItemsInCartSubject
 			.map { String($0) }
-			.subscribe(cartButtonTitleSubject)
+		.debug("Presenter: interactorTotalNumberOfItemsInCartSubject")
+			.subscribe(outputSocketForView.cartButtonTitleDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorTotalNumberOfItemsInCartSubject
+		inputSocketForInteractor
+			.interactorTotalNumberOfItemsInCartSubject
 			.map { $0 != 0 }
-			.subscribe(cartButtonIsEnabledSubject)
+			.subscribe(outputSocketForView.cartButtonIsEnabledDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorTotalCostOfItemsInCartSubject
+		inputSocketForInteractor
+			.interactorTotalCostOfItemsInCartSubject
 			.map { "Total Cost: Rs.\($0)" }
-			.subscribe(totalCostLabelTextSubject)
+			.subscribe(outputSocketForView.totalCostLabelTextDriverSubject)
 			.disposed(by: disposeBag)
 
-		interactorTotalNumberOfItemsInCartSubject
+		inputSocketForInteractor
+			.interactorTotalNumberOfItemsInCartSubject
 			.map { $0 != 0 }
-			.subscribe(emptyCartButtonIsEnabledSubject)
+			.subscribe(outputSocketForView.emptyCartButtonIsEnabledDriverSubject)
 			.disposed(by: disposeBag)
-	}
-}
-
-// MARK: - NEW
-// MARK: View -> Presenter
-extension ShopPresenter {
-	var cartButtonTapSubject: PublishSubject<Void> {
-		cartButtonTapSub
-	}
-
-	var viewDidLoadSubject: PublishSubject<Void> {
-		viewDidLoadSub
-	}
-
-	var emptyCartButtonTapSubject: PublishSubject<Void> {
-		emptyCartButtonTapSub
-	}
-}
-
-// MARK: - Presenter -> View
-extension ShopPresenter {
-	var tableViewDriverSubject: PublishSubject<[(item: ShopItem, cart: CartService)]> {
-		tableViewSubject
-	}
-
-	var cartButtonIsEnabledDriverSubject: PublishSubject<Bool> {
-		cartButtonIsEnabledSubject
-	}
-
-	var cartButtonTitleDriverSubject: PublishSubject<String> {
-		cartButtonTitleSubject
-	}
-
-	var totalCostLabelTextDriverSubject: PublishSubject<String> {
-		totalCostLabelTextSubject
-	}
-
-	var emptyCartButtonIsEnabledDriverSubject: PublishSubject<Bool> {
-		emptyCartButtonIsEnabledSubject
-	}
-}
-
-// MARK: - Presenter -> Interactor
-extension ShopPresenter {
-	var fetchShopItemsObservable: Observable<Void> {
-		fetchShopItemsSubject
-	}
-
-	var emptyCartObservable: Observable<Void> {
-		emptyCartSubject
-	}
-}
-
-// MARK: - Presenter -> Rotuer
-extension ShopPresenter {
-	var goToCartScreenObservable: PublishSubject<Void> {
-		goToCartScreenSubject
 	}
 }

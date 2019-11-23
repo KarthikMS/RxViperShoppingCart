@@ -11,14 +11,11 @@ import RxSwift
 
 class ShopRouter: ShopRouterProtocol {
 	// MARK: - Dependencies
-//	var presenter: ShopRouterInputsFromPresenterProvider!
 	let presenter: ShopPresenterProtocol
 	let navController: UINavigationController?
 
-	let goToCartSubject = PublishSubject<Void>()
-	var goToCartObserver: PublishSubject<Void> {
-		goToCartSubject
-	}
+	// MARK: - Properties
+	let inputSocketForPresenter = ShopRouterInputSocketForPresenter()
 
 	required init(presenter: ShopPresenterProtocol, navController: UINavigationController?) {
 		self.presenter = presenter
@@ -34,8 +31,8 @@ class ShopRouter: ShopRouterProtocol {
 // MARK: - Setup
 private extension ShopRouter {
 	func bindWithPresenter() {
-		presenter
-			.goToCartScreenObservable
+		inputSocketForPresenter
+			.presentCartViewObserver
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] in
 				guard let navController = self?.navController else { return }
@@ -43,27 +40,5 @@ private extension ShopRouter {
 				navController.pushViewController(cartViewController, animated: true)
 			})
 			.disposed(by: disposeBag)
-	}
-}
-//	func observePresenter() {
-//		presenter.observablesForRouter
-//			.cartButtonTapObservable
-//			.observeOn(MainScheduler.instance)
-//			.subscribe(onNext: { [weak self] in
-//				guard let self = self else { return }
-//				let cartViewController = CartRouter.createModule(navController: self.navController)
-//				self.navController.pushViewController(cartViewController, animated: true)
-//			})
-//			.disposed(by: disposeBag)
-//	}
-
-// MARK: - ShopRouterProtocol
-extension ShopRouter {
-
-}
-
-extension ShopRouter {
-	var presentCartViewObserver: PublishSubject<Void> {
-		PublishSubject<Void>()
 	}
 }

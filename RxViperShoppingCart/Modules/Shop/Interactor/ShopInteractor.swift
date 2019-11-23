@@ -10,76 +10,72 @@ import RxSwift
 
 class ShopInteractor: ShopInteractorProtocol {
 	// MARK: - Dependencies
-//	var presenter: (ShopInteractorInputsFromPresenterProvider & ShopInteractorOutputSink)!
 	var presenter: ShopPresenterProtocol!
 
-	private let cartService: CartService
+	private let cart: CartService
 	private let shopDataSource: ShopDataSource
+
+	// MARK: - Properties
+	let inputSocket = ShopInteractorInputSocketForPresenter()
+	let outputSocket = ShopInteractorOutputSocketForPresenter()
 
 	// MARK: - Initializers
 	init(cart: CartService, shopDataSource: ShopDataSource) {
-		self.cartService = cart
+		self.cart = cart
 		self.shopDataSource = shopDataSource
 
-		setUpServiceSubscriptions()
+		observerShopDataSource()
+		observeCart()
+		handleInputsFromPresenter()
 	}
-
-	// MARK: - Properties
-	private let fetchShopItemsSubject = PublishSubject<Void>()
-	private let emptyCartSubject = PublishSubject<Void>()
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 }
 
-// MARK: - ShopInteractorProtocol
-extension ShopInteractor {
-	func setUpServiceSubscriptions() {
-		fetchShopItemsSubject
+// MARK: - Setup
+private extension ShopInteractor {
+	func observerShopDataSource() {
+		shopDataSource
+			.itemsObservable
+			.subscribe(outputSocket.shopItemsObservable)
+			.disposed(by: disposeBag)
+	}
+
+	func observeCart() {
+		outputSocket.cartObservable.onNext(cart)
+
+		cart
+			.itemsObservable
+			.subscribe(outputSocket.cartItemsObservable)
+			.disposed(by: disposeBag)
+
+		cart
+			.totalNumberOfItemsObservable
+		.debug("ShopInteractor")
+			.subscribe(outputSocket.totalNumberOfItemsInCartObservable)
+			.disposed(by: disposeBag)
+
+		cart
+			.totalCostObservable
+			.subscribe(outputSocket.totalCostOfItemsInCartObservable)
+			.disposed(by: disposeBag)
+	}
+
+	func handleInputsFromPresenter() {
+		inputSocket
+			.fetchShopItemsObserver
 			.subscribe(onNext: { [weak self] in
 				self?.shopDataSource.fetchItems()
 			})
 			.disposed(by: disposeBag)
 
-		emptyCartSubject
+		inputSocket
+			.emptyCartObserver
 			.subscribe(onNext: { [weak self] in
 				self?.cart.empty()
 				self?.shopDataSource.fetchItems()
 			})
 			.disposed(by: disposeBag)
-	}
-}
-
-
-// MARK: - ShopPresenterOutputsForInteractorSink
-extension ShopInteractor {
-	var fetchShopItemsObserver: PublishSubject<Void> {
-		fetchShopItemsSubject
-	}
-
-	var emptyCartObserver: PublishSubject<Void> {
-		emptyCartSubject
-	}
-}
-
-extension ShopInteractor {
-	var cart: CartService {
-		cartService
-	}
-
-	var shopItemsObservable: Observable<[ShopItem]> {
-		shopDataSource.itemsObservable
-	}
-
-	var cartItemsObservable: Observable<[CartItem]> {
-		cart.itemsObservable
-	}
-
-	var totalNumberOfItemsInCartObservable: Observable<Int> {
-		cart.totalNumberOfItemsObservable
-	}
-
-	var totalCostOfItemsInCartObservable: Observable<Int> {
-		cart.totalCostObservable
 	}
 }

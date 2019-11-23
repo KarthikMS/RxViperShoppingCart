@@ -12,6 +12,10 @@
 		D91A23812382E5B70050B8A6 /* CartInteractorAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A23802382E5B70050B8A6 /* CartInteractorAssembler.swift */; };
 		D91A238323841E1A0050B8A6 /* CartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A238223841E1A0050B8A6 /* CartTests.swift */; };
 		D91A2385238721240050B8A6 /* ShopModuleWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2384238721240050B8A6 /* ShopModuleWireFrame.swift */; };
+		D91A238A2387E4E60050B8A6 /* ShopViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A23892387E4E60050B8A6 /* ShopViewProtocol.swift */; };
+		D91A238C2387E4FE0050B8A6 /* ShopPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A238B2387E4FE0050B8A6 /* ShopPresenterProtocol.swift */; };
+		D91A238E2387E51D0050B8A6 /* ShopInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A238D2387E51D0050B8A6 /* ShopInteractorProtocol.swift */; };
+		D91A23902387E5320050B8A6 /* ShopRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A238F2387E5320050B8A6 /* ShopRouterProtocol.swift */; };
 		D91A2F44237C14E700F71942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F43237C14E700F71942 /* AppDelegate.swift */; };
 		D91A2F46237C14E700F71942 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F45237C14E700F71942 /* SceneDelegate.swift */; };
 		D91A2F4B237C14E700F71942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D91A2F49237C14E700F71942 /* Main.storyboard */; };
@@ -20,7 +24,6 @@
 		D91A2F53237C14E900F71942 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D91A2F51237C14E900F71942 /* LaunchScreen.storyboard */; };
 		D91A2F5E237C14E900F71942 /* RxViperShoppingCartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F5D237C14E900F71942 /* RxViperShoppingCartTests.swift */; };
 		D91A2F69237C14E900F71942 /* RxViperShoppingCartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F68237C14E900F71942 /* RxViperShoppingCartUITests.swift */; };
-		D91A2F7A237C500400F71942 /* ShopModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F79237C500400F71942 /* ShopModuleProtocols.swift */; };
 		D91A2F7D237C501200F71942 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F7B237C501200F71942 /* ShopViewController.swift */; };
 		D91A2F7E237C501200F71942 /* ShopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D91A2F7C237C501200F71942 /* ShopViewController.xib */; };
 		D91A2F84237C531B00F71942 /* ShopInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91A2F83237C531B00F71942 /* ShopInteractor.swift */; };
@@ -84,6 +87,10 @@
 		D91A23802382E5B70050B8A6 /* CartInteractorAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartInteractorAssembler.swift; sourceTree = "<group>"; };
 		D91A238223841E1A0050B8A6 /* CartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTests.swift; sourceTree = "<group>"; };
 		D91A2384238721240050B8A6 /* ShopModuleWireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopModuleWireFrame.swift; sourceTree = "<group>"; };
+		D91A23892387E4E60050B8A6 /* ShopViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewProtocol.swift; sourceTree = "<group>"; };
+		D91A238B2387E4FE0050B8A6 /* ShopPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopPresenterProtocol.swift; sourceTree = "<group>"; };
+		D91A238D2387E51D0050B8A6 /* ShopInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopInteractorProtocol.swift; sourceTree = "<group>"; };
+		D91A238F2387E5320050B8A6 /* ShopRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopRouterProtocol.swift; sourceTree = "<group>"; };
 		D91A2F40237C14E700F71942 /* RxViperShoppingCart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxViperShoppingCart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91A2F43237C14E700F71942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D91A2F45237C14E700F71942 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,7 +105,6 @@
 		D91A2F64237C14E900F71942 /* RxViperShoppingCartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxViperShoppingCartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91A2F68237C14E900F71942 /* RxViperShoppingCartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxViperShoppingCartUITests.swift; sourceTree = "<group>"; };
 		D91A2F6A237C14E900F71942 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D91A2F79237C500400F71942 /* ShopModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopModuleProtocols.swift; sourceTree = "<group>"; };
 		D91A2F7B237C501200F71942 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
 		D91A2F7C237C501200F71942 /* ShopViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopViewController.xib; sourceTree = "<group>"; };
 		D91A2F83237C531B00F71942 /* ShopInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopInteractor.swift; sourceTree = "<group>"; };
@@ -276,7 +282,10 @@
 		D91A2F81237C503000F71942 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				D91A2F79237C500400F71942 /* ShopModuleProtocols.swift */,
+				D91A23892387E4E60050B8A6 /* ShopViewProtocol.swift */,
+				D91A238B2387E4FE0050B8A6 /* ShopPresenterProtocol.swift */,
+				D91A238D2387E51D0050B8A6 /* ShopInteractorProtocol.swift */,
+				D91A238F2387E5320050B8A6 /* ShopRouterProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -729,9 +738,11 @@
 				D95B22232381BB9600A68CB2 /* CartRouter.swift in Sources */,
 				D95B220F2381B9A700A68CB2 /* ItemTableViewCellRouter.swift in Sources */,
 				D9FCFB06237E7C0900C96E76 /* CartServiceAssembler.swift in Sources */,
+				D91A238C2387E4FE0050B8A6 /* ShopPresenterProtocol.swift in Sources */,
 				D9FCFB29237F0BAC00C96E76 /* ShopInteractorAssembler.swift in Sources */,
 				D91A2F86237C532D00F71942 /* ShopRouter.swift in Sources */,
 				D95B221F2381BB5E00A68CB2 /* CartInteractor.swift in Sources */,
+				D91A23902387E5320050B8A6 /* ShopRouterProtocol.swift in Sources */,
 				D9FCFAFD237E7BAA00C96E76 /* Cart.swift in Sources */,
 				D95B22212381BB7E00A68CB2 /* CartPresenter.swift in Sources */,
 				D9FCFB00237E7BAA00C96E76 /* ShopDataSource.swift in Sources */,
@@ -739,9 +750,9 @@
 				D9FCFB08237E7C0900C96E76 /* PurchaseServiceAssembler.swift in Sources */,
 				D91A2F8A237C536D00F71942 /* CartItem.swift in Sources */,
 				D9FCFB27237E9C5500C96E76 /* Constants.swift in Sources */,
+				D91A238E2387E51D0050B8A6 /* ShopInteractorProtocol.swift in Sources */,
 				D95B221C2381BB1D00A68CB2 /* CartViewController.swift in Sources */,
 				D91A2F4E237C14E700F71942 /* RxViperShoppingCart.xcdatamodeld in Sources */,
-				D91A2F7A237C500400F71942 /* ShopModuleProtocols.swift in Sources */,
 				D9FCFAFE237E7BAA00C96E76 /* CartService.swift in Sources */,
 				D9FCFB23237E82D600C96E76 /* ItemTableViewCellInteractor.swift in Sources */,
 				D9FCFB25237E832800C96E76 /* ItemTableViewCellPresenter.swift in Sources */,
@@ -754,6 +765,7 @@
 				D9FCFAFB237E7BAA00C96E76 /* PurchaseServiceImpl.swift in Sources */,
 				D91A2F7D237C501200F71942 /* ShopViewController.swift in Sources */,
 				D91A23812382E5B70050B8A6 /* CartInteractorAssembler.swift in Sources */,
+				D91A238A2387E4E60050B8A6 /* ShopViewProtocol.swift in Sources */,
 				D95B22192381BB0C00A68CB2 /* CartModuleProtocols.swift in Sources */,
 				D91A2F44237C14E700F71942 /* AppDelegate.swift in Sources */,
 				D91A2F46237C14E700F71942 /* SceneDelegate.swift in Sources */,

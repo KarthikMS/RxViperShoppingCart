@@ -12,7 +12,6 @@ import RxCocoa
 
 class ShopViewController: UIViewController, ShopViewProtocol {
 	// MARK: - Dependencies
-//	var presenter: (ShopViewInputsFromPresenterProvider & ShopViewOutputsSink)!
 	var presenter: ShopPresenterProtocol!
 
 	// MARK: - IBOutlets
@@ -23,21 +22,13 @@ class ShopViewController: UIViewController, ShopViewProtocol {
 	@IBOutlet private weak var cartButton: UIBarButtonItem!
 	@IBOutlet private weak var emptyCartButton: UIBarButtonItem!
 
-	// MARK: - Subjects for observables for presenter
-	private let viewDidLoadSubject = PublishSubject<Void>()
-	private let viewWillAppearSubject = PublishSubject<Void>()
-	private let cartButtonTapSubject = PublishSubject<Void>()
-	private let emptyCartButtonTapSubject = PublishSubject<Void>()
+	// MARK: - Properties
+	let inputSocket = ShopViewInputSocketForPresenter()
+	let outputSocket = ShopViewOutputSocketForPresenter()
 
 	// MARK: - Util
 	private let disposeBag = DisposeBag()
 	private let CellIdentifier = "CellIdentifier"
-
-	private let tableViewDriver = PublishSubject<[(item: ShopItem, cart: CartService)]>()
-	private let cartButtonIsEnabledDriver = PublishSubject<Bool>()
-	private let cartButtonTitleDriver = PublishSubject<String>()
-	private let totalCostLabelTextDriver = PublishSubject<String>()
-	private let emptyCartButtonIsEnabledDriver = PublishSubject<Bool>()
 }
 
 // MARK: - View Life Cycle
@@ -46,17 +37,16 @@ extension ShopViewController {
         super.viewDidLoad()
 
 		setUpTableView()
-		bindInputs()
 		bindOutputs()
-
-//		viewDidLoadSubject.onCompleted()
+		handleInputsFromPresenter()
     }
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-//		viewWillAppearSubject.onNext(())
-		viewDidLoadSubject.onNext(())
+		outputSocket.viewWillAppearObservable.onNext(())
+		// TODO: Try to remove output pins
+//		presenter.inputSocketForView.viewWillAppearSubject.onNext(())
 	}
 }
 
@@ -66,33 +56,35 @@ private extension ShopViewController {
 		tableView.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: CellIdentifier)
 	}
 
-	func bindInputs() {
-		tableViewDriverSubject
+	func handleInputsFromPresenter() {
+		inputSocket
+			.tableViewDriverSubject
 			.asDriver(onErrorJustReturn: [])
 			.drive(tableView.rx.items(cellIdentifier: CellIdentifier, cellType: ItemTableViewCell.self)) { _, cellInfo, cell in
 				ItemTableViewCellRouter.configure(cell, for: cellInfo.item, cart: cellInfo.cart)
 			}
 			.disposed(by: disposeBag)
 
-		cartButtonTitleDriverSubject
-//			.asDriver(onErrorRecover: { (error) -> SharedSequence<DriverSharingStrategy, String> in
-//				assertionFailure(error.l)
-//			})
+		inputSocket
+			.cartButtonTitleDriverSubject
 			.asDriver(onErrorJustReturn: "0")
 			.drive(cartButton.rx.title)
 			.disposed(by: disposeBag)
 
-		cartButtonIsEnabledDriverSubject
+		inputSocket
+			.cartButtonIsEnabledDriverSubject
 			.asDriver(onErrorJustReturn: false)
 			.drive(cartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
 
-		totalCostLabelTextDriverSubject
+		inputSocket
+			.totalCostLabelTextDriverSubject
 			.asDriver(onErrorJustReturn: "Total cost: Rs.0")
 			.drive(totalCostLabel.rx.text)
 			.disposed(by: disposeBag)
 
-		emptyCartButtonIsEnabledDriverSubject
+		inputSocket
+			.emptyCartButtonIsEnabledDriverSubject
 			.asDriver(onErrorJustReturn: false)
 			.drive(emptyCartButton.rx.isEnabled)
 			.disposed(by: disposeBag)
@@ -100,53 +92,11 @@ private extension ShopViewController {
 
 	func bindOutputs() {
 		cartButton.rx.tap
-			.subscribe(cartButtonTapSubject)
+			.subscribe(outputSocket.cartButtonTapObservable)
 			.disposed(by: disposeBag)
 
 		emptyCartButton.rx.tap
-			.subscribe(emptyCartButtonTapSubject)
+			.subscribe(outputSocket.emptyCartButtonTapObservable)
 			.disposed(by: disposeBag)
-	}
-}
-
-// MARK: - Inputs
-extension ShopViewController {
-	var tableViewDriverSubject: PublishSubject<[(item: ShopItem, cart: CartService)]> {
-		tableViewDriver
-	}
-
-	var cartButtonIsEnabledDriverSubject: PublishSubject<Bool> {
-		cartButtonIsEnabledDriver
-	}
-
-	var cartButtonTitleDriverSubject: PublishSubject<String> {
-		cartButtonTitleDriver
-	}
-
-	var totalCostLabelTextDriverSubject: PublishSubject<String> {
-		totalCostLabelTextDriver
-	}
-
-	var emptyCartButtonIsEnabledDriverSubject: PublishSubject<Bool> {
-		emptyCartButtonIsEnabledDriver
-	}
-}
-
-// MARK: - Outputs
-extension ShopViewController {
-	var viewDidLoadObservable: Observable<Void> {
-		viewDidLoadSubject
-	}
-
-	var viewWillAppearObservable: Observable<Void> {
-		viewWillAppearSubject
-	}
-
-	var cartButtonTapObservable: Observable<Void> {
-		cartButtonTapSubject
-	}
-
-	var emptyCartButtonTapObservable: Observable<Void> {
-		emptyCartButtonTapSubject
 	}
 }

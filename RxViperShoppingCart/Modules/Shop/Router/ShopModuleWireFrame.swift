@@ -27,12 +27,9 @@ class ShopModuleWireFrame {
 		presenter.interactor = interactor
 		presenter.router = router
 
-		//		presenter.bindInputsFromView()
 		bind(presenter, with: view)
 		bind(presenter, with: interactor)
 		bind(presenter, with: router)
-
-		//		presenter.bindInputsFromInteractor()
 
 		return navController
 	}
@@ -41,86 +38,115 @@ class ShopModuleWireFrame {
 	private static let disposeBag = DisposeBag()
 }
 
-// MARK: - Binding
+// MARK: - Binding Presenter and View
 private extension ShopModuleWireFrame {
 	static func bind(_ presenter: ShopPresenterProtocol, with view: ShopViewProtocol) {
-		view
-			.viewDidLoadObservable
-			.subscribe(presenter.viewDidLoadSubject)
+		bind(outputSocketOf: presenter, withInputSocketOf: view)
+		bind(outputSocketOf: view, withInputSocketOf: presenter)
+	}
+
+	static func bind(outputSocketOf view: ShopViewProtocol, withInputSocketOf presenter: ShopPresenterProtocol) {
+		view.outputSocket
+			.viewWillAppearObservable
+			.subscribe(presenter.inputSocketForView.viewWillAppearSubject)
 			.disposed(by: disposeBag)
 
-		view
+		view.outputSocket
 			.cartButtonTapObservable
-			.subscribe(presenter.cartButtonTapSubject)
+			.subscribe(presenter.inputSocketForView.cartButtonTapSubject)
 			.disposed(by: disposeBag)
 
-		view
+		view.outputSocket
 			.emptyCartButtonTapObservable
-			.subscribe(presenter.emptyCartButtonTapSubject)
+			.subscribe(presenter.inputSocketForView.emptyCartButtonTapSubject)
 			.disposed(by: disposeBag)
+	}
 
-		presenter
+	static func bind(outputSocketOf presenter: ShopPresenterProtocol, withInputSocketOf view: ShopViewProtocol) {
+		presenter.outputSocketForView
 			.tableViewDriverSubject
-			.subscribe(view.tableViewDriverSubject)
+			.subscribe(view.inputSocket.tableViewDriverSubject)
 			.disposed(by: disposeBag)
 
-		presenter
+		presenter.outputSocketForView
 			.cartButtonIsEnabledDriverSubject
-			.subscribe(view.cartButtonIsEnabledDriverSubject)
+			.subscribe(view.inputSocket.cartButtonIsEnabledDriverSubject)
 			.disposed(by: disposeBag)
 
-		presenter
+		presenter.outputSocketForView
 			.cartButtonTitleDriverSubject
-			.subscribe(view.cartButtonTitleDriverSubject)
+			.subscribe(view.inputSocket.cartButtonTitleDriverSubject)
 			.disposed(by: disposeBag)
 
-		presenter
+		presenter.outputSocketForView
 			.totalCostLabelTextDriverSubject
-			.subscribe(view.totalCostLabelTextDriverSubject)
+			.subscribe(view.inputSocket.totalCostLabelTextDriverSubject)
 			.disposed(by: disposeBag)
 
-		presenter
+		presenter.outputSocketForView
 			.emptyCartButtonIsEnabledDriverSubject
-			.subscribe(view.emptyCartButtonIsEnabledDriverSubject)
+			.subscribe(view.inputSocket.emptyCartButtonIsEnabledDriverSubject)
 			.disposed(by: disposeBag)
 	}
+}
 
+// MARK: - Binding Presenter and Interactor
+private extension ShopModuleWireFrame {
 	static func bind(_ presenter: ShopPresenterProtocol, with interactor: ShopInteractorProtocol) {
-		presenter
+		bind(outputSocketOf: presenter, withInputSocketOf: interactor)
+		bind(outputSocketOf: interactor, withInputSocketOf: presenter)
+	}
+
+	static func bind(outputSocketOf presenter: ShopPresenterProtocol, withInputSocketOf interactor: ShopInteractorProtocol) {
+		presenter.outputSocketForInteractor
 			.fetchShopItemsObservable
-			.subscribe(interactor.fetchShopItemsObserver)
+			.subscribe(interactor.inputSocket.fetchShopItemsObserver)
 			.disposed(by: disposeBag)
 
-		presenter
+		presenter.outputSocketForInteractor
 			.emptyCartObservable
-			.subscribe(interactor.emptyCartObserver)
-			.disposed(by: disposeBag)
-
-		interactor
-			.shopItemsObservable
-			.subscribe(presenter.interactorShopItemsObservable)
-			.disposed(by: disposeBag)
-
-		interactor
-			.cartItemsObservable
-			.subscribe(presenter.interactorCartItemsSubject)
-			.disposed(by: disposeBag)
-
-		interactor
-			.totalCostOfItemsInCartObservable
-			.subscribe(presenter.interactorTotalCostOfItemsInCartSubject)
-			.disposed(by: disposeBag)
-
-		interactor
-			.totalNumberOfItemsInCartObservable
-			.subscribe(presenter.interactorTotalNumberOfItemsInCartSubject)
+			.subscribe(interactor.inputSocket.emptyCartObserver)
 			.disposed(by: disposeBag)
 	}
 
+	static func bind(outputSocketOf interactor: ShopInteractorProtocol, withInputSocketOf presenter: ShopPresenterProtocol) {
+		interactor.outputSocket
+			.cartObservable
+			.subscribe(presenter.inputSocketForInteractor.cartSubject)
+			.disposed(by: disposeBag)
+
+		interactor.outputSocket
+			.shopItemsObservable
+			.subscribe(presenter.inputSocketForInteractor.interactorShopItemsObservable)
+			.disposed(by: disposeBag)
+
+		interactor.outputSocket
+			.cartItemsObservable
+			.subscribe(presenter.inputSocketForInteractor.interactorCartItemsSubject)
+			.disposed(by: disposeBag)
+
+		interactor.outputSocket
+			.totalCostOfItemsInCartObservable
+			.subscribe(presenter.inputSocketForInteractor.interactorTotalCostOfItemsInCartSubject)
+			.disposed(by: disposeBag)
+
+		interactor.outputSocket
+			.totalNumberOfItemsInCartObservable
+			.subscribe(presenter.inputSocketForInteractor.interactorTotalNumberOfItemsInCartSubject)
+			.disposed(by: disposeBag)
+	}
+}
+
+// MARK: - Binding Presenter and Router
+private extension ShopModuleWireFrame {
 	static func bind(_ presenter: ShopPresenterProtocol, with router: ShopRouterProtocol) {
-		presenter
+		bind(outputSocketOf: presenter, withInputSocketOf: router)
+	}
+
+	static func bind(outputSocketOf presenter: ShopPresenterProtocol, withInputSocketOf router: ShopRouterProtocol) {
+		presenter.outputSocketForRouter
 			.goToCartScreenObservable
-			.subscribe(router.presentCartViewObserver)
+			.subscribe(router.inputSocketForPresenter.presentCartViewObserver)
 			.disposed(by: disposeBag)
 	}
 }
