@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemDetailViewController" customModule="RxViperShoppingCart" customModuleProvider="target">
+            <connections>
+                <outlet property="itemCostLabel" destination="k70-fj-UNW" id="v0P-nd-kpq"/>
+                <outlet property="itemNameLabel" destination="LtK-7O-PO1" id="k8z-cK-viY"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LtK-7O-PO1">
+                    <rect key="frame" x="0.0" y="148" width="414" height="77"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="77" id="2b6-CB-Sk7"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rs. 100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k70-fj-UNW">
+                    <rect key="frame" x="0.0" y="292" width="414" height="96"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="96" id="GQd-47-zIE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="k70-fj-UNW" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="613-bz-woo"/>
+                <constraint firstItem="k70-fj-UNW" firstAttribute="top" secondItem="LtK-7O-PO1" secondAttribute="bottom" constant="67" id="Bu3-rO-9GT"/>
+                <constraint firstItem="LtK-7O-PO1" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="F0S-X6-OdL"/>
+                <constraint firstItem="LtK-7O-PO1" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Oby-HK-b60"/>
+                <constraint firstItem="LtK-7O-PO1" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="104" id="gPf-my-YXg"/>
+                <constraint firstItem="k70-fj-UNW" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="htG-tL-nAo"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="137.68115942028987" y="136.60714285714286"/>
+        </view>
+    </objects>
+</document>

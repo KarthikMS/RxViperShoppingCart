@@ -6,6 +6,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Item Detail View Controller-->
+        <scene sceneID="ShT-bE-ibi">
+            <objects>
+                <viewController storyboardIdentifier="ItemDetail" id="p0D-pM-Hab" customClass="ItemDetailViewController" customModule="RxViperShoppingCart" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y6Q-fS-yKc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1048" y="-577"/>
+        </scene>
         <!--Shop-->
         <scene sceneID="tne-QT-ifu">
             <objects>

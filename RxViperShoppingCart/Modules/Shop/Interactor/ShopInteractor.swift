@@ -24,6 +24,7 @@ class ShopInteractor: ShopInteractorProtocol {
 		self.cart = cart
 		self.shopDataSource = shopDataSource
 
+		outputSocket.cartObservable.onNext(cart)
 		observerShopDataSource()
 		observeCart()
 		handleInputsFromPresenter()
@@ -43,8 +44,6 @@ private extension ShopInteractor {
 	}
 
 	func observeCart() {
-		outputSocket.cartObservable.onNext(cart)
-
 		cart
 			.itemsObservable
 			.subscribe(outputSocket.cartItemsObservable)
@@ -52,7 +51,6 @@ private extension ShopInteractor {
 
 		cart
 			.totalNumberOfItemsObservable
-		.debug("ShopInteractor")
 			.subscribe(outputSocket.totalNumberOfItemsInCartObservable)
 			.disposed(by: disposeBag)
 
